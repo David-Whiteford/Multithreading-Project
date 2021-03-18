@@ -23,9 +23,9 @@ void ThreadPool::addTask(std::function<void()> task)
 std::function<void()> ThreadPool::AddNums()
 {
 	int numVal = 0;
-	for (int i = 0; i < 10000000000000000000; i++)
+	for (int i = 0; i < 100000; i++)
 	{
-		for (int j = 0; j < 10000000000000000000; j++)
+		for (int j = 0; j < 100000; j++)
 		{
 			numVal = i + j;
 			std::cout << "Num Val: " << numVal << std::endl;
