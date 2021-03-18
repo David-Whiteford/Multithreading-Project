@@ -11,6 +11,7 @@ public:
 	ThreadPool();
 	~ThreadPool();
 	void addTask(std::function<void()>);
+	std::function<void()> AddNums();
 private:
 	std::vector<std::thread> m_threads;
 	std::queue<std::function<void()>> m_tasks;
