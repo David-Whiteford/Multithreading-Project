@@ -6,7 +6,14 @@ Game::Game() :
 	m_window{ sf::VideoMode{ desktop.width, desktop.height, desktop.bitsPerPixel }, "SFML Game" }
 {
 	init();
+	m_tileMap->PushValsToVec();
+	m_tileMap->setMap(m_window);
+	m_startingPos.push_back(sf::Vector2f(1557, 260));
+	std::vector<Rectangles*> walls = m_tileMap->getTilesVec();
+	m_gamePath->initAStar(walls);
 	ThreadPool tp;
+
+	npc = new NPC(m_window, m_deltaTime, m_startingPos[0], m_gamePath);
 }
 
 
@@ -18,40 +25,43 @@ Game::~Game()
 void Game::run()
 {
 	sf::Clock clock;
-	sf::Int32 lag = 0;
+	sf::Clock gunClock;
+	sf::Time oldTime = sf::Time::Zero;
+	sf::Time timeSinceLastUpdate = sf::Time::Zero;
+	sf::Time timePerFrame = sf::seconds((1.f / 60.0f));
 
 	while (m_window.isOpen())
 	{
-		sf::Time dt = clock.restart();
+		m_deltaTime = clock.getElapsedTime() - oldTime;
 
-		lag += dt.asMilliseconds();
-
-		processEvents();
-
-		while (lag > MS_PER_UPDATE)
+		if (clock.getElapsedTime() > oldTime + timePerFrame)
 		{
-			update(MS_PER_UPDATE);
-			lag -= MS_PER_UPDATE;
+			processEvents();
+			update(m_deltaTime);
+			processEvents();
+			oldTime = clock.getElapsedTime();
+			render();
 		}
-		update(MS_PER_UPDATE);
-
-		render();
 	}
 }
 
 
 void Game::init()
 {
-
+	m_tileMap = new Tilemap();
 }
 
 void Game::processEvents()
 {
 }
 
-void Game::update(double dt)
+void Game::update(sf::Time t_deltaTime)
 {
-
+	sf::RectangleShape player;
+	player.setSize(sf::Vector2f(10, 10));
+	player.setFillColor(sf::Color::Red);
+	player.setPosition(50, 50);
+	npc->update(player, m_deltaTime);
 
 
 }
@@ -59,6 +69,9 @@ void Game::update(double dt)
 void Game::render()
 {
 	m_window.clear(sf::Color::Black);
+	npc->draw();
+	m_tileMap->Draw();
+	m_gamePath->draw();
 	m_window.display();
 }
 

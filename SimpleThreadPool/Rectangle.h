@@ -8,15 +8,21 @@
 class Rectangles : public GameObject
 {
 public:
-	Rectangles(sf::RenderWindow& t_window, float size, sf::Vector2f pos) :
+	Rectangles(sf::RenderWindow& t_window, float size, sf::Vector2f pos,int t_tag,sf::Color t_color) :
 		m_window(t_window)
 	{
 		m_rect.setPosition(pos);
-		m_rect.setFillColor(sf::Color::Green);
+		m_rect.setFillColor(t_color);
 		m_rect.setSize(sf::Vector2f(size, size));
-		m_rect.setOrigin(sf::Vector2f(size / 2, size / 2));
 		myGameObject = dynamic_cast<GameObject*>(this);
-		myGameObject->setTag(WALL_TAG);
+		if (t_tag == 0)
+		{
+			myGameObject->setTag(PASSIBLE_TAG);
+		}
+		else
+		{
+			myGameObject->setTag(IMPASSIBLE_TAG);
+		}
 
 	} // end wall
 	virtual ~Rectangles() {}
