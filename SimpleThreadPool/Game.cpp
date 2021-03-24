@@ -61,20 +61,27 @@ void Game::update(sf::Time t_deltaTime)
 	player.setSize(sf::Vector2f(10, 10));
 	player.setFillColor(sf::Color::Red);
 	player.setPosition(50, 50);
-	npc->update(player, m_deltaTime);
+	if (m_moveNpc)
+	{
+		npc->update(player, m_deltaTime);
+	}
+	handleInputs();
 }
 
 void Game::render()
 {
 	m_window.clear(sf::Color::Black);
-	npc->draw();
 	m_tileMap->Draw();
 	m_gamePath->draw();
+	npc->draw();
 	m_window.display();
 }
 
 void Game::handleInputs()
 {
-
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	{
+		m_moveNpc = true;
+	}
 }
 

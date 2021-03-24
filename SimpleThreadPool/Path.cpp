@@ -82,6 +82,7 @@ void Path::clearAStar()
 
 void Path::initAStar(std::vector<Rectangles*>& t_walls)
 {
+	int impassableVal = 1;
 	graph = new Graph<NodeData, int>(900);
 	graphPath.reserve(169);
 	int nodeIndex = 0;
@@ -108,8 +109,11 @@ void Path::initAStar(std::vector<Rectangles*>& t_walls)
 			{
 				if (m_nodeShape[nodeIndex].getGlobalBounds().intersects(wall->getShape().getGlobalBounds()))
 				{
-					m_nodeShape[nodeIndex].setFillColor(sf::Color(sf::Color::Red));
-					nodeData.passable = false;
+					if (wall->myGameObject->getTag() == impassableVal)
+					{
+						m_nodeShape[nodeIndex].setFillColor(sf::Color(sf::Color::Red));
+						nodeData.passable = false;
+					}
 
 				}
 			}

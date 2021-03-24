@@ -38,7 +38,7 @@ private:
 	sf::Vector2f graphPathVec;
 	std::vector<int> m_startNodes;
 	std::vector<int> m_endNodes;
-	int m_size = 10;
+	int m_size = 25;
 	int m_enemyNode = 0;
 	int m_playerNode = 0;
 	int startNode = 103;

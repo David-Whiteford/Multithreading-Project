@@ -25,6 +25,7 @@ private:
 	sf::Event event;
 	sf::RenderWindow m_window; // main SFML window
 	int m_enemyNode = 0;
+	bool m_moveNpc = false;
 	std::vector<sf::Vector2f> m_startingPos;
 	Path* m_gamePath = new Path(m_window);
 	sf::Time m_deltaTime;
