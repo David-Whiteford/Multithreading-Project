@@ -8,12 +8,20 @@ Game::Game() :
 	init();
 	m_tileMap->PushValsToVec();
 	m_tileMap->setMap(m_window);
-	m_startingPos.push_back(sf::Vector2f(1557, 260));
+	for (int i = 0; i < m_maxEnemies; i++) {
+		int randX = rand() % 850 + 50;
+		int randY = rand() % 850 + 50;
+
+		m_startingPos.push_back(sf::Vector2f(randX, randY));
+	}
+	
 	std::vector<Rectangles*> walls = m_tileMap->getTilesVec();
 	m_gamePath->initAStar(walls);
 	ThreadPool tp;
+	for (int i = 0; i < m_maxEnemies; i++) {
+		m_npcVec.push_back(new NPC(m_window, m_deltaTime, m_startingPos[i], m_gamePath));
+	}
 
-	npc = new NPC(m_window, m_deltaTime, m_startingPos[0], m_gamePath);
 }
 
 
@@ -63,8 +71,13 @@ void Game::update(sf::Time t_deltaTime)
 	player.setPosition(50, 50);
 	if (m_moveNpc)
 	{
-		npc->update(player, m_deltaTime);
+		for (int i = 0; i < m_npcVec.size(); i++)
+		{
+			m_npcVec[i]->update(player, m_deltaTime);
+			
+		}
 	}
+	
 	handleInputs();
 }
 
@@ -73,7 +86,10 @@ void Game::render()
 	m_window.clear(sf::Color::Black);
 	m_tileMap->Draw();
 	m_gamePath->draw();
-	npc->draw();
+	for (int i = 0; i < m_npcVec.size(); i++)
+	{
+		m_npcVec[i]->draw();
+	}
 	m_window.display();
 }
 

@@ -137,6 +137,7 @@
     <ClInclude Include="MyEnums.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Path.h" />
+    <ClInclude Include="RayCast.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="Tilemap.h" />
@@ -146,6 +147,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Path.cpp" />
+    <ClCompile Include="RayCast.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="ThreadPool.cpp" />
     <ClCompile Include="Tilemap.cpp" />

@@ -6,6 +6,7 @@
 #include "AStar/NodeData.h"
 #include "Rectangle.h"
 #include "Transform.h"
+#include "RayCast.h"
 typedef GraphNode<NodeData, int> Node;
 class Path
 {
@@ -29,7 +30,7 @@ private:
 	Graph<NodeData, int>* graph;
 	int endNode = 2237;
 	int startNode = 103;
-
+	Raycast m_raycastUp;
 	Transform m_transform;
 	std::vector<Node*> graphPath;
 

@@ -22,11 +22,11 @@ void NPC::enemyInit()
 
 	m_enemy.setSize(sf::Vector2f(m_size, m_size));
 	m_enemy.setFillColor(sf::Color::Red);
-	m_enemy.setPosition(100, 800);
+	m_enemy.setPosition(m_position);
 	//get initial enemy Position
 	m_enemyNode = m_gamePath->nodePos(m_enemy.getPosition());
 	//will take a player position when created
-	m_playerNode = getPlayerNode(sf::Vector2f(200, 300));
+	m_playerNode = getPlayerNode(sf::Vector2f(100, 50));
 	m_gamePath->newPath(m_enemyNode, m_playerNode);
 	setSpeed(1);
 	dynamic_cast<GameObject*>(this)->setTag(ENEMY_TAG);
@@ -65,7 +65,8 @@ void NPC::enemyMovement(sf::Time t_deltaTime)
 	}
 	else
 	{
-		int nodeEnd = getPlayerNode(sf::Vector2f(850, 300));
+		//this sets the end node for now
+		int nodeEnd = getPlayerNode(m_endPos);
 		m_gamePath->newPath(m_enemyNode, nodeEnd);
 		m_gamePath->update();
 		graphPath = m_gamePath->getGraphPath();

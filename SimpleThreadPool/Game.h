@@ -29,6 +29,8 @@ private:
 	std::vector<sf::Vector2f> m_startingPos;
 	Path* m_gamePath = new Path(m_window);
 	sf::Time m_deltaTime;
-	NPC *npc;
+	std::vector<NPC*> m_npcVec;
+	int m_maxEnemies = 100;
+	
 };
 #endif
