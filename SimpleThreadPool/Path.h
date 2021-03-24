@@ -40,7 +40,7 @@ private:
 	std::vector<sf::RectangleShape> m_nodeSquare;
 	int val = 0;
 	int static const ROWS = 30;
-	int static const COLS = 10;
+	int static const COLS = 30;
 	int arr[ROWS][COLS];
 
 	//find the neighbours of row 4 and column 4(temp Test

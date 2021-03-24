@@ -82,7 +82,7 @@ void Path::clearAStar()
 
 void Path::initAStar(std::vector<Rectangles*>& t_walls)
 {
-	graph = new Graph<NodeData, int>(300);
+	graph = new Graph<NodeData, int>(900);
 	graphPath.reserve(169);
 	int nodeIndex = 0;
 	for (int i = 0; i < ROWS; i++)
