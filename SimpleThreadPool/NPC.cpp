@@ -65,7 +65,7 @@ void NPC::enemyMovement(sf::Time t_deltaTime)
 	}
 	else
 	{
-		int nodeEnd = getPlayerNode(sf::Vector2f(200, 50));
+		int nodeEnd = getPlayerNode(sf::Vector2f(850, 300));
 		m_gamePath->newPath(m_enemyNode, nodeEnd);
 		m_gamePath->update();
 		graphPath = m_gamePath->getGraphPath();
