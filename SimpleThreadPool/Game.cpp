@@ -62,8 +62,6 @@ void Game::update(sf::Time t_deltaTime)
 	player.setFillColor(sf::Color::Red);
 	player.setPosition(50, 50);
 	npc->update(player, m_deltaTime);
-
-
 }
 
 void Game::render()

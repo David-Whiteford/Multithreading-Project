@@ -82,7 +82,7 @@ void Path::clearAStar()
 
 void Path::initAStar(std::vector<Rectangles*>& t_walls)
 {
-	graph = new Graph<NodeData, int>(2500);
+	graph = new Graph<NodeData, int>(300);
 	graphPath.reserve(169);
 	int nodeIndex = 0;
 	for (int i = 0; i < ROWS; i++)
@@ -97,18 +97,18 @@ void Path::initAStar(std::vector<Rectangles*>& t_walls)
 			nodeData.m_row = i;
 			nodeData.m_col = j;
 
-			m_nodeShape[nodeIndex].setFillColor(sf::Color(sf::Color::Yellow));
+			m_nodeShape[nodeIndex].setFillColor(sf::Color::Transparent);
 			m_nodeShape[nodeIndex].setSize(sf::Vector2f(m_nodeSize, m_nodeSize));
 			m_nodeShape[nodeIndex].setOutlineThickness(1);
-			m_nodeShape[nodeIndex].setOutlineColor(sf::Color(sf::Color::Black));
+			m_nodeShape[nodeIndex].setOutlineColor(sf::Color(sf::Color::White));
 			m_nodeShape[nodeIndex].setPosition(nodeData.m_x, nodeData.m_y);
-			m_nodeShape[nodeIndex].setOrigin(25, 25);
+			
 
 			for (auto wall : t_walls)
 			{
 				if (m_nodeShape[nodeIndex].getGlobalBounds().intersects(wall->getShape().getGlobalBounds()))
 				{
-					m_nodeShape[nodeIndex].setFillColor(sf::Color(sf::Color::Black));
+					m_nodeShape[nodeIndex].setFillColor(sf::Color(sf::Color::Red));
 					nodeData.passable = false;
 
 				}

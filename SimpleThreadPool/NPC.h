@@ -27,7 +27,7 @@ public:
 
 private:
 	int m_doOncePatrol = 0;
-	float m_speed = 0.5f;
+	float m_speed = 0.01f;
 	sf::Time m_time;
 	Transform m_transform;
 	Transform::Position graphPos;
