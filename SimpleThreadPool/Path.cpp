@@ -27,9 +27,9 @@ void Path::draw()
 void Path::neighbourAlgor()
 {
 	int nodeIndex = 0;
-	for (int row = 0; row < ROWS; row++)
+	for (int row = 0; row < m_rows; row++)
 	{
-		for (int col = 0; col < COLS; col++)
+		for (int col = 0; col < m_cols; col++)
 		{
 			// L neighbors Algorithm:
 			for (int direction = 0; direction < 9; direction++)
@@ -40,12 +40,12 @@ void Path::neighbourAlgor()
 				int n_col = col + ((direction / 3) - 1); // Neighbor column
 
 				// Check the bounds:
-				if (n_row >= 0 && n_row < ROWS && n_col >= 0 && n_col < COLS)
+				if (n_row >= 0 && n_row < m_rows && n_col >= 0 && n_col < m_cols)
 				{
 					int index = 0;
-					for (int i = 0; i < ROWS; i++)
+					for (int i = 0; i < m_rows; i++)
 					{
-						for (int j = 0; j < COLS; j++)
+						for (int j = 0; j < m_cols; j++)
 						{
 							if (graph->nodeIndex(index)->m_data.m_row == n_row
 								&& graph->nodeIndex(index)->m_data.m_col == n_col)
@@ -83,27 +83,30 @@ void Path::clearAStar()
 void Path::initAStar(std::vector<Rectangles*>& t_walls)
 {
 	int impassableVal = 1;
-	graph = new Graph<NodeData, int>(900);
+	graph = new Graph<NodeData, int>(m_numNodes);
 	graphPath.reserve(169);
 	int nodeIndex = 0;
-	for (int i = 0; i < ROWS; i++)
+
+	int x = 0;
+	int y = 0;
+	for (int row = 0; row < m_rows; row++)
 	{
-		for (int j = 0; j < COLS; j++)
+		for (int col = 0; col < m_cols; col++)
 		{
 			m_nodeSquare.push_back(m_nodeShape[nodeIndex]);
 			nodeData.passable = true;
 			nodeData.m_name = std::to_string(nodeIndex);
-			nodeData.m_x = j * m_nodeSize;
-			nodeData.m_y = i * m_nodeSize;
-			nodeData.m_row = i;
-			nodeData.m_col = j;
+			nodeData.m_x = col * m_nodeSize;
+			nodeData.m_y = row * m_nodeSize;
+			nodeData.m_row = row;
+			nodeData.m_col = col;
 
 			m_nodeShape[nodeIndex].setFillColor(sf::Color::Transparent);
 			m_nodeShape[nodeIndex].setSize(sf::Vector2f(m_nodeSize, m_nodeSize));
 			m_nodeShape[nodeIndex].setOutlineThickness(1);
 			m_nodeShape[nodeIndex].setOutlineColor(sf::Color(sf::Color::White));
 			m_nodeShape[nodeIndex].setPosition(nodeData.m_x, nodeData.m_y);
-			
+
 
 			for (auto wall : t_walls)
 			{
@@ -124,8 +127,9 @@ void Path::initAStar(std::vector<Rectangles*>& t_walls)
 			graph->addNode(nodeData, nodeIndex);
 			m_nodeSquare.push_back(m_nodeShape[nodeIndex]);
 			nodeIndex++;
-
+			x++;
 		}
+		
 	}
 	neighbourAlgor();
 }
@@ -152,6 +156,6 @@ std::vector<Node*>& Path::getGraphPath()
 }
 int Path::nodePos(sf::Vector2f position)
 {
-	int nodeNumber = floor(position.x / m_nodeSize) + (floor(position.y / m_nodeSize) * COLS);
+	int nodeNumber = floor(position.x / m_nodeSize) + (floor(position.y / m_nodeSize) * m_cols);
 	return nodeNumber;
 }

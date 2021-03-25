@@ -21,6 +21,10 @@ public:
 	{
 		return m_playerPosVec;
 	}
+	std::vector<int> getTileVecValues()
+	{
+		return m_tileVecValues;
+	}
 	void PushValsToVec()
 	{
 		for (int row = 0; row < m_mapWidth; row++)

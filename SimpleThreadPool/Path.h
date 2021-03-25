@@ -20,6 +20,10 @@ public:
 	void update();
 	void setPath();
 	void setNewPath();
+	void setNumNodes(int t_numNodes)
+	{
+		m_numNodes = t_numNodes;
+	}
 	void newPath(int t_start, int t_end);
 	std::vector<Node*>& getGraphPath();
 	int nodePos(sf::Vector2f position);
@@ -33,17 +37,16 @@ private:
 	Raycast m_raycastUp;
 	Transform m_transform;
 	std::vector<Node*> graphPath;
-
+	int m_numNodes = 900;
 	std::vector<std::vector<Node*>> paths;
 	NodeData nodeData;
 	int nodeIndex{ 0 };
 
 	std::vector<sf::RectangleShape> m_nodeSquare;
 	int val = 0;
-	int static const ROWS = 30;
-	int static const COLS = 30;
-	int arr[ROWS][COLS];
-
+	int m_rows = 30;
+	int m_cols = 30;
+	
 	//find the neighbours of row 4 and column 4(temp Test
 	int row = 0;
 	int col = 0;

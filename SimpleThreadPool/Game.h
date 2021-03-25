@@ -30,7 +30,7 @@ private:
 	Path* m_gamePath = new Path(m_window);
 	sf::Time m_deltaTime;
 	std::vector<NPC*> m_npcVec;
-	int m_maxEnemies = 100;
+	int m_maxEnemies = 1000;
 	
 };
 #endif

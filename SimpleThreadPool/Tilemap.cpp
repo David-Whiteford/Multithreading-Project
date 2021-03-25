@@ -2,22 +2,9 @@
 
 Tilemap::Tilemap()
 {
-	
-	LoadMap(lvl1, 30, 10);
-
 }
 Tilemap::~Tilemap()
 {
-}
-void Tilemap::LoadMap(int arr[m_mapWidth][m_mapHeigth], int t_mapWidth, int t_mapHeight)
-{
-	for (int row = 0; row < t_mapWidth; row++)
-	{
-		for (int col = 0; col < t_mapHeight; col++)
-		{
-			tilemap[row][col] = arr[row][col];
-		}
-	}
 }
 void Tilemap::Draw()
 {

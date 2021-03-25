@@ -11,11 +11,11 @@ Game::Game() :
 	for (int i = 0; i < m_maxEnemies; i++) {
 		int randX = rand() % 850 + 50;
 		int randY = rand() % 850 + 50;
-
 		m_startingPos.push_back(sf::Vector2f(randX, randY));
 	}
 	
 	std::vector<Rectangles*> walls = m_tileMap->getTilesVec();
+
 	m_gamePath->initAStar(walls);
 	ThreadPool tp;
 	for (int i = 0; i < m_maxEnemies; i++) {
