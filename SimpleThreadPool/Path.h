@@ -47,9 +47,6 @@ private:
 	int m_rows = 30;
 	int m_cols = 30;
 	
-	//find the neighbours of row 4 and column 4(temp Test
-	int row = 0;
-	int col = 0;
 
 	sf::RectangleShape m_nodeShape[2500];
 	int m_nodeSize = 32;

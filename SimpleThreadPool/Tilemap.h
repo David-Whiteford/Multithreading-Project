@@ -25,6 +25,10 @@ public:
 	{
 		return m_tileVecValues;
 	}
+	std::vector<sf::Vector2f> getPlayerPosTiles()
+	{
+		return m_playerPosVec;
+	}
 	void PushValsToVec()
 	{
 		for (int row = 0; row < m_mapWidth; row++)

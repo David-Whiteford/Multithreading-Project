@@ -10,7 +10,6 @@ public:
 	GameObject() { static int _id; id = _id++; }
 
 	virtual ~GameObject() {}
-
 	void setTag(int tag) { m_tag = tag; }
 	int getTag() { return m_tag; }
 

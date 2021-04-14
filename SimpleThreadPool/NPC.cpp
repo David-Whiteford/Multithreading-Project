@@ -70,13 +70,18 @@ void NPC::enemyMovement(sf::Time t_deltaTime)
 		m_gamePath->newPath(m_enemyNode, nodeEnd);
 		m_gamePath->update();
 		graphPath = m_gamePath->getGraphPath();
+		for (int i = 0; i < graphPath.size(); i++) {
+			//graphPath[i]->m_data.pathCost = 10000;
+			std::cout << "Graph Path Cost: " << graphPath[i]->m_data.pathCost << std::endl;
+		}
+		
 	}
 }
 
 void NPC::moveEnemy(sf::Time t_deltaTime)
 {
 	graphPathVec = sf::Vector2f(graphPath.back()->m_data.m_x, graphPath.back()->m_data.m_y);
-
+	//graphPath[0]->m_data.pathCost = 100;
 	sf::Vector2f moveTo = m_transform.moveTowards(m_enemy.getPosition(), graphPathVec, m_speed * t_deltaTime.asMilliseconds());
 	m_enemy.setPosition(moveTo);
 	if (m_enemy.getPosition().x == graphPath.back()->m_data.m_x &&

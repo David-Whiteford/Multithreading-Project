@@ -37,6 +37,5 @@ bool Raycast::intersectsRect(sf::Vector2f p1, sf::Vector2f p2)
 
 sf::Vector2f Raycast::getEndPoint()
 {
-	
 	return m_rayEndPos;
 }

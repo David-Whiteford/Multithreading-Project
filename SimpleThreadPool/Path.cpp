@@ -21,9 +21,6 @@ void Path::draw()
 		}
 	}
 }
-
-
-
 void Path::neighbourAlgor()
 {
 	int nodeIndex = 0;
@@ -143,7 +140,6 @@ void Path::setPath()
 {
 	graph->clearMarks();
 	graph->aStar(graph->nodeIndex(startNode), graph->nodeIndex(endNode), graphPath);
-
 }
 void Path::newPath(int t_start, int t_end)
 {

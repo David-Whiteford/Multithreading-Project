@@ -6,15 +6,18 @@
 #include <queue>
 #include <functional>
 
+#include "NPC.h"
+
 class ThreadPool {
 public:
 	ThreadPool();
 	~ThreadPool();
 	void addTask(std::function<void()>);
-	std::function<void()> AddNums();
+	void SetVal(std::vector<NPC*>& t_npc);
 private:
 	std::vector<std::thread> m_threads;
 	std::queue<std::function<void()>> m_tasks;
+	std::vector<NPC*> m_npc;
 };
 #endif // !THREAD_POOL_H
 
