@@ -31,6 +31,8 @@ private:
 	sf::Time m_deltaTime;
 	std::vector<NPC*> m_npcVec;
 	int m_maxEnemies = 1000;
+	sf::Vector2i m_mapMax = sf::Vector2i(400, 400);
+	int m_pos = 24;
 	
 };
 #endif

@@ -100,8 +100,6 @@ void Path::initAStar(std::vector<Rectangles*>& t_walls)
 
 			m_nodeShape[nodeIndex].setFillColor(sf::Color::Transparent);
 			m_nodeShape[nodeIndex].setSize(sf::Vector2f(m_nodeSize, m_nodeSize));
-			m_nodeShape[nodeIndex].setOutlineThickness(1);
-			m_nodeShape[nodeIndex].setOutlineColor(sf::Color(sf::Color::White));
 			m_nodeShape[nodeIndex].setPosition(nodeData.m_x, nodeData.m_y);
 
 
@@ -109,12 +107,10 @@ void Path::initAStar(std::vector<Rectangles*>& t_walls)
 			{
 				if (m_nodeShape[nodeIndex].getGlobalBounds().intersects(wall->getShape().getGlobalBounds()))
 				{
-					if (wall->myGameObject->getTag() == impassableVal)
-					{
+					if (wall->myGameObject->getTag() == impassableVal) {
 						m_nodeShape[nodeIndex].setFillColor(sf::Color(sf::Color::Red));
 						nodeData.passable = false;
 					}
-
 				}
 			}
 
@@ -155,3 +151,9 @@ int Path::nodePos(sf::Vector2f position)
 	int nodeNumber = floor(position.x / m_nodeSize) + (floor(position.y / m_nodeSize) * m_cols);
 	return nodeNumber;
 }
+
+void Path::setNodeSize(int t_size)
+{
+	m_nodeSize = t_size;
+}
+

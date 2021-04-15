@@ -27,7 +27,7 @@ public:
 	void newPath(int t_start, int t_end);
 	std::vector<Node*>& getGraphPath();
 	int nodePos(sf::Vector2f position);
-
+	void setNodeSize(int t_size);
 private:
 	sf::RenderWindow& m_window;
 	std::map<std::string, int> nodeMap;

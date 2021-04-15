@@ -8,7 +8,7 @@
 class NPC : public GameObject
 {
 public:
-	NPC(sf::RenderWindow& t_window, sf::Time& t_deltaTime, sf::Vector2f t_position, Path* t_gamePath);
+	NPC(sf::RenderWindow& t_window, sf::Time& t_deltaTime, sf::Vector2f t_position, Path* t_gamePath,int t_size);
 	~NPC();
 	void enemyInit();
 	void setSpeed(float t_speed);
@@ -43,7 +43,7 @@ private:
 	sf::Vector2f graphPathVec;
 	std::vector<int> m_startNodes;
 	std::vector<int> m_endNodes;
-	int m_size = 25;
+	int m_size = 0;
 	int m_enemyNode = 0;
 	int m_playerNode = 0;
 	int startNode = 103;

@@ -1,8 +1,8 @@
 #include "NPC.h"
 
-NPC::NPC(sf::RenderWindow& t_window, sf::Time& t_deltaTime, sf::Vector2f t_position, Path* t_gamePath)
+NPC::NPC(sf::RenderWindow& t_window, sf::Time& t_deltaTime, sf::Vector2f t_position, Path* t_gamePath, int t_size)
 	:   m_window(t_window), m_deltaTime(t_deltaTime),
-		m_position(t_position), m_gamePath(t_gamePath)
+		m_position(t_position), m_gamePath(t_gamePath),m_size(t_size)
 {
 	m_endNodes.push_back(52);
 	enemyInit();

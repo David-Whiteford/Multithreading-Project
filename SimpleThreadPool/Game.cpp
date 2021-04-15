@@ -8,18 +8,18 @@ Game::Game() :
 	init();
 	m_tileMap->PushValsToVec();
 	m_tileMap->setMap(m_window);
-	for (int i = 0; i < m_maxEnemies; i++) {
-		int randX = rand() % 850 + 50;
-		int randY = rand() % 850 + 50;
-		m_startingPos.push_back(sf::Vector2f(randX, randY));
-	}
 	
+	for (int i = 0; i < m_maxEnemies; i++) {
+		m_startingPos.push_back(sf::Vector2f(m_pos, m_pos));
+	}
 	std::vector<Rectangles*> walls = m_tileMap->getTilesVec();
-
+	sf::RectangleShape playerPos = m_tileMap->getPlayerPos();
+	int tileSize = m_tileMap->getNodeSize();
+	m_gamePath->setNodeSize(tileSize);
 	m_gamePath->initAStar(walls);
 	ThreadPool tp;
 	for (int i = 0; i < m_maxEnemies; i++) {
-		m_npcVec.push_back(new NPC(m_window, m_deltaTime, m_startingPos[i], m_gamePath));
+		m_npcVec.push_back(new NPC(m_window, m_deltaTime, m_startingPos[i], m_gamePath, m_tileMap->getNodeSize() /2));
 	}
 
 }

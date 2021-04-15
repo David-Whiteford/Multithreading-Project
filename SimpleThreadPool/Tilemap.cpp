@@ -25,17 +25,18 @@ void Tilemap::setMap(sf::RenderWindow& t_window)
 		switch (type)
 		{
 		case 0:
-			m_tileVec.push_back(new Rectangles(t_window, m_tileSize,
-				sf::Vector2f(x * m_tileSize, y * m_tileSize),0,sf::Color::Black));
 			break;
 		case 1:
 			m_tileVec.push_back(new Rectangles(t_window, m_tileSize,
-				sf::Vector2f(x * m_tileSize, y * m_tileSize), 0, sf::Color::White));
+				sf::Vector2f(x * m_tileSize, y * m_tileSize), 1, sf::Color::White));
 			break;
 		case 2:
 			m_tileVec.push_back(new Rectangles(t_window, m_tileSize,
 				sf::Vector2f(x * m_tileSize, y * m_tileSize), 0, sf::Color::Yellow));
-			m_playerPosVec.push_back(sf::Vector2f(x * m_tileSize, y * m_tileSize));
+			break;
+		case 3:
+			m_tileVec.push_back(new Rectangles(t_window, m_tileSize,
+				sf::Vector2f(x * m_tileSize, y * m_tileSize), 2, sf::Color::Yellow));
 			break;
 		default:
 			break;
