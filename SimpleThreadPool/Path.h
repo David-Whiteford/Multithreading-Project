@@ -7,6 +7,8 @@
 #include "Rectangle.h"
 #include "Transform.h"
 #include "RayCast.h"
+#include "Collisions.h"
+#include "Debug.h"
 typedef GraphNode<NodeData, int> Node;
 class Path
 {
@@ -29,6 +31,7 @@ public:
 	int nodePos(sf::Vector2f position);
 	void setNodeSize(int t_size);
 private:
+	Collisions m_colliders;
 	sf::RenderWindow& m_window;
 	std::map<std::string, int> nodeMap;
 	Graph<NodeData, int>* graph;
@@ -49,5 +52,5 @@ private:
 	
 
 	sf::RectangleShape m_nodeShape[2500];
-	int m_nodeSize = 32;
+	int m_nodeSize = 31;
 };

@@ -8,7 +8,7 @@
 class NPC : public GameObject
 {
 public:
-	NPC(sf::RenderWindow& t_window, sf::Time& t_deltaTime, sf::Vector2f t_position, Path* t_gamePath,int t_size);
+	NPC(sf::RenderWindow& t_window, sf::Time& t_deltaTime, sf::Vector2f t_position, Path* t_gamePath,int t_size, sf::RectangleShape t_player);
 	~NPC();
 	void enemyInit();
 	void setSpeed(float t_speed);
@@ -22,7 +22,7 @@ public:
 	{
 		return m_enemy.getPosition();
 	}
-	void update(sf::RectangleShape t_player, sf::Time t_deltaTime);
+	void update();
 	void enemyMovement(sf::Time t_deltaTime);
 	void moveEnemy(sf::Time t_deltaTime);
 	void draw();
@@ -50,7 +50,7 @@ private:
 	int endNode = 2227;
 	sf::Vector2f m_position = sf::Vector2f(0, 0);
 	std::vector<sf::RectangleShape> m_walls;
-
+	sf::RectangleShape m_player;
 	sf::Time& m_deltaTime;
 };
 

@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "MyEnums.h"
 #include "Path.h"
-
+#include "ThreadPool.h"
 #include "NPC.h"
 class Game
 {
@@ -21,6 +21,7 @@ private:
 	void render();
 	void handleInputs();
 	Tilemap* m_tileMap;
+	ThreadPool m_threadPool;
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
 	sf::Event event;
 	sf::RenderWindow m_window; // main SFML window
@@ -30,6 +31,7 @@ private:
 	Path* m_gamePath = new Path(m_window);
 	sf::Time m_deltaTime;
 	std::vector<NPC*> m_npcVec;
+	sf::RectangleShape m_player;
 	int m_maxEnemies = 1000;
 	sf::Vector2i m_mapMax = sf::Vector2i(400, 400);
 	int m_pos = 24;

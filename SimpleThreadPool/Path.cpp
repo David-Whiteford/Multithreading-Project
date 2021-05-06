@@ -13,7 +13,7 @@ Path::~Path()
 
 void Path::draw()
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+	if (DEBUG >= 1)
 	{
 		for (auto node : m_nodeSquare)
 		{
@@ -99,13 +99,16 @@ void Path::initAStar(std::vector<Rectangles*>& t_walls)
 			nodeData.m_col = col;
 
 			m_nodeShape[nodeIndex].setFillColor(sf::Color::Transparent);
+			m_nodeShape[nodeIndex].setOutlineThickness(1);
+			m_nodeShape[nodeIndex].setOutlineColor(sf::Color::White);
 			m_nodeShape[nodeIndex].setSize(sf::Vector2f(m_nodeSize, m_nodeSize));
 			m_nodeShape[nodeIndex].setPosition(nodeData.m_x, nodeData.m_y);
 
 
 			for (auto wall : t_walls)
 			{
-				if (m_nodeShape[nodeIndex].getGlobalBounds().intersects(wall->getShape().getGlobalBounds()))
+				if (m_colliders.boxToBoxCol(m_nodeShape[nodeIndex].getPosition(),wall->getShape().getPosition(),
+					m_nodeShape[nodeIndex].getSize(), wall->getShape().getSize()) == true)
 				{
 					if (wall->myGameObject->getTag() == impassableVal) {
 						m_nodeShape[nodeIndex].setFillColor(sf::Color(sf::Color::Red));
@@ -113,9 +116,6 @@ void Path::initAStar(std::vector<Rectangles*>& t_walls)
 					}
 				}
 			}
-
-			//std::cout << "The Node at: " << nodeData.m_name << "Is Passable: " << nodeData.passable << std::endl;
-
 			//add node
 			graph->addNode(nodeData, nodeIndex);
 			m_nodeSquare.push_back(m_nodeShape[nodeIndex]);

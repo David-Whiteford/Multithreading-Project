@@ -13,7 +13,6 @@ public:
 	~Tilemap();
 	void init();
 
-	void LoadMap(int arr[30][30], int t_mapWidth, int t_mapHeight);
 	void Draw();
 	void setMap(sf::RenderWindow& t_window);
 	std::vector<Rectangles*> getTilesVec();

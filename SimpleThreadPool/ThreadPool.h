@@ -14,6 +14,7 @@ public:
 	~ThreadPool();
 	void addTask(std::function<void()>);
 	void SetVal(std::vector<NPC*>& t_npc);
+	void continueTask();
 private:
 	std::vector<std::thread> m_threads;
 	std::queue<std::function<void()>> m_tasks;

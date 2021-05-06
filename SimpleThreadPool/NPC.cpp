@@ -1,8 +1,8 @@
 #include "NPC.h"
 
-NPC::NPC(sf::RenderWindow& t_window, sf::Time& t_deltaTime, sf::Vector2f t_position, Path* t_gamePath, int t_size)
+NPC::NPC(sf::RenderWindow& t_window, sf::Time& t_deltaTime, sf::Vector2f t_position, Path* t_gamePath, int t_size, sf::RectangleShape t_player)
 	:   m_window(t_window), m_deltaTime(t_deltaTime),
-		m_position(t_position), m_gamePath(t_gamePath),m_size(t_size)
+		m_position(t_position), m_gamePath(t_gamePath),m_size(t_size),m_player(t_player)
 {
 	m_endNodes.push_back(52);
 	enemyInit();
@@ -42,10 +42,10 @@ void NPC::setPosition(sf::Vector2f t_pos)
 	m_enemy.setPosition(t_pos);
 }
 
-void NPC::update(sf::RectangleShape t_player, sf::Time t_deltaTime)
+void NPC::update()
 {
 	//sets the node the player and the enemy are in
-	m_playerNode = m_gamePath->nodePos(t_player.getPosition());
+	m_playerNode = m_gamePath->nodePos(m_player.getPosition());
 	m_enemyNode = m_gamePath->nodePos(m_enemy.getPosition());
 	myGameObject->position = m_enemy.getPosition();
 
@@ -54,7 +54,7 @@ void NPC::update(sf::RectangleShape t_player, sf::Time t_deltaTime)
 		m_doOncePatrol = 1;
 		graphPath.resize(0);
 	}
-	enemyMovement(t_deltaTime);
+	enemyMovement(m_deltaTime);
 }
 
 void NPC::enemyMovement(sf::Time t_deltaTime)
@@ -69,12 +69,7 @@ void NPC::enemyMovement(sf::Time t_deltaTime)
 		int nodeEnd = getPlayerNode(m_endPos);
 		m_gamePath->newPath(m_enemyNode, nodeEnd);
 		m_gamePath->update();
-		graphPath = m_gamePath->getGraphPath();
-		for (int i = 0; i < graphPath.size(); i++) {
-			//graphPath[i]->m_data.pathCost = 10000;
-			std::cout << "Graph Path Cost: " << graphPath[i]->m_data.pathCost << std::endl;
-		}
-		
+		graphPath = m_gamePath->getGraphPath();	
 	}
 }
 
