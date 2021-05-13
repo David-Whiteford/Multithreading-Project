@@ -1,8 +1,8 @@
 #include "Path.h"
 #include "Rectangle.h"
 
-Path::Path(sf::RenderWindow& t_window) :
-	m_window(t_window)
+Path::Path(sf::RenderWindow& t_window, int t_mapWidth, int t_mapHeigth) :
+	m_window(t_window),m_cols(t_mapWidth),m_rows(t_mapHeigth)
 {
 
 }
@@ -15,7 +15,7 @@ void Path::draw()
 {
 	if (DEBUG >= 1)
 	{
-		for (auto node : m_nodeSquare)
+		for (auto node : m_nodeShape)
 		{
 			m_window.draw(node);
 		}
@@ -44,15 +44,15 @@ void Path::neighbourAlgor()
 					{
 						for (int j = 0; j < m_cols; j++)
 						{
-							if (graph->nodeIndex(index)->m_data.m_row == n_row
-								&& graph->nodeIndex(index)->m_data.m_col == n_col)
+							if (graph->nodeIndex(index)->m_data.row == n_row
+								&& graph->nodeIndex(index)->m_data.col == n_col)
 							{
 
-								sf::Vector2f currentNode = sf::Vector2f(graph->nodeIndex(nodeIndex)->m_data.m_x,
-									graph->nodeIndex(nodeIndex)->m_data.m_y);
+								sf::Vector2f currentNode = sf::Vector2f(graph->nodeIndex(nodeIndex)->m_data.positionX,
+									graph->nodeIndex(nodeIndex)->m_data.positionY);
 
-								sf::Vector2f neighborsNodes = sf::Vector2f(graph->nodeIndex(index)->m_data.m_x,
-									graph->nodeIndex(index)->m_data.m_y);
+								sf::Vector2f neighborsNodes = sf::Vector2f(graph->nodeIndex(index)->m_data.positionX,
+									graph->nodeIndex(index)->m_data.positionY);
 
 								float dist = m_transform.distance(currentNode, neighborsNodes);
 
@@ -83,26 +83,26 @@ void Path::initAStar(std::vector<Rectangles*>& t_walls)
 	graph = new Graph<NodeData, int>(m_numNodes);
 	graphPath.reserve(169);
 	int nodeIndex = 0;
-
-	int x = 0;
-	int y = 0;
 	for (int row = 0; row < m_rows; row++)
 	{
 		for (int col = 0; col < m_cols; col++)
 		{
-			m_nodeSquare.push_back(m_nodeShape[nodeIndex]);
 			nodeData.passable = true;
-			nodeData.m_name = std::to_string(nodeIndex);
-			nodeData.m_x = col * m_nodeSize;
-			nodeData.m_y = row * m_nodeSize;
-			nodeData.m_row = row;
-			nodeData.m_col = col;
-
-			m_nodeShape[nodeIndex].setFillColor(sf::Color::Transparent);
+			nodeData.name = std::to_string(nodeIndex);
+			nodeData.positionX = col * m_nodeSize;
+			nodeData.positionY = row * m_nodeSize;
+			nodeData.row = row;
+			nodeData.col = col; 
+			nodeData.color = sf::Color::Transparent;
+			nodeData.index = nodeIndex;
+			m_gridNodes.push_back(nodeData);
+			sf::RectangleShape rect;
+			m_nodeShape.push_back(rect);
+			m_nodeShape[nodeIndex].setFillColor(nodeData.color);
 			m_nodeShape[nodeIndex].setOutlineThickness(1);
 			m_nodeShape[nodeIndex].setOutlineColor(sf::Color::White);
 			m_nodeShape[nodeIndex].setSize(sf::Vector2f(m_nodeSize, m_nodeSize));
-			m_nodeShape[nodeIndex].setPosition(nodeData.m_x, nodeData.m_y);
+			m_nodeShape[nodeIndex].setPosition(nodeData.positionX, nodeData.positionY);
 
 
 			for (auto wall : t_walls)
@@ -118,9 +118,7 @@ void Path::initAStar(std::vector<Rectangles*>& t_walls)
 			}
 			//add node
 			graph->addNode(nodeData, nodeIndex);
-			m_nodeSquare.push_back(m_nodeShape[nodeIndex]);
 			nodeIndex++;
-			x++;
 		}
 		
 	}

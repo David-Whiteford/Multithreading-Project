@@ -28,13 +28,16 @@ private:
 	int m_enemyNode = 0;
 	bool m_moveNpc = false;
 	std::vector<sf::Vector2f> m_startingPos;
-	Path* m_gamePath = new Path(m_window);
+	int m_mapWidth = 30;
+	int m_mapHeight = 30;
+	Path* m_gamePath = new Path(m_window, m_mapWidth, m_mapHeight);
 	sf::Time m_deltaTime;
 	std::vector<NPC*> m_npcVec;
 	sf::RectangleShape m_player;
-	int m_maxEnemies = 1000;
+	int m_maxEnemies = 30;
 	sf::Vector2i m_mapMax = sf::Vector2i(400, 400);
 	int m_pos = 24;
+	
 	
 };
 #endif

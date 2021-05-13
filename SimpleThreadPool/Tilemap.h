@@ -59,7 +59,7 @@ private:
 	static const int m_mapHeigth = 30;
 	
 	sf::Vector2f m_tilePosition = sf::Vector2f(0.0f, 0.0f);
-	int m_tileSize = 16;
+	int m_tileSize = 10;
 	int tilemap[m_mapWidth][m_mapHeigth];
 	std::vector<int> m_tileVecValues;
 	int lvl1[m_mapWidth][m_mapHeigth] = {

@@ -475,8 +475,8 @@ inline void Graph<NodeType, ArcType>::aStar(Node* start, Node* dest , std::vecto
 		{
 			std::cout << "index of null node: " << index << std::endl;
 		}
-		node->m_data.CostReachGoalH = std::sqrt((node->m_data.m_x - dest->m_data.m_x ) * (node->m_data.m_x - dest->m_data.m_x)
-			+ (node->m_data.m_y - dest->m_data.m_y) * (node->m_data.m_y - dest->m_data.m_y));
+		node->m_data.CostReachGoalH = std::sqrt((node->m_data.positionX - dest->m_data.positionX ) * (node->m_data.positionX - dest->m_data.positionX)
+			+ (node->m_data.positionY - dest->m_data.positionY) * (node->m_data.positionY - dest->m_data.positionY));
 		node->m_data.pathCost = std::numeric_limits<int>::max();	
 		index++;
 	}

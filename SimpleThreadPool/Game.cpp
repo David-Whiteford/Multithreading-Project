@@ -8,18 +8,23 @@ Game::Game() :
 	init();
 	m_tileMap->PushValsToVec();
 	m_tileMap->setMap(m_window);
-	m_player.setSize(sf::Vector2f(10, 10));
-	m_player.setFillColor(sf::Color::Red);
-	m_player.setPosition(50, 50);
-	for (int i = 0; i < m_maxEnemies; i++) {
-		m_startingPos.push_back(sf::Vector2f(m_pos, m_pos));
-	}
-	std::vector<Rectangles*> walls = m_tileMap->getTilesVec();
 	sf::RectangleShape playerPos = m_tileMap->getPlayerPos();
+	m_player.setSize(sf::Vector2f(5, 5));
+	m_player.setFillColor(sf::Color::Red);
+	m_player.setPosition(playerPos.getPosition().x, playerPos.getPosition().y);
+	std::vector<Rectangles*> walls = m_tileMap->getTilesVec();
 	int tileSize = m_tileMap->getNodeSize();
 	m_gamePath->setNodeSize(tileSize);
 	m_gamePath->initAStar(walls);
 	ThreadPool tp;
+	
+	for (int i = 0; i < m_maxEnemies; i++)
+	{
+		int x, y = 0;
+		x = randomInt(10,10 * 29);
+		y = randomInt(10, 10 * 29);
+		m_startingPos.push_back(sf::Vector2f(x, y));
+	}
 	for (int i = 0; i < m_maxEnemies; i++) {
 		m_npcVec.push_back(new NPC(m_window, m_deltaTime, m_startingPos[i], m_gamePath, m_tileMap->getNodeSize() /2, m_player));
 	}

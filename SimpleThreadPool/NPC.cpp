@@ -70,17 +70,19 @@ void NPC::enemyMovement(sf::Time t_deltaTime)
 		m_gamePath->newPath(m_enemyNode, nodeEnd);
 		m_gamePath->update();
 		graphPath = m_gamePath->getGraphPath();	
+		m_gamePath->setColor(sf::Color::Blue, graphPath);
+		
 	}
 }
 
 void NPC::moveEnemy(sf::Time t_deltaTime)
 {
-	graphPathVec = sf::Vector2f(graphPath.back()->m_data.m_x, graphPath.back()->m_data.m_y);
+	graphPathVec = sf::Vector2f(graphPath.back()->m_data.positionX, graphPath.back()->m_data.positionY);
 	//graphPath[0]->m_data.pathCost = 100;
-	sf::Vector2f moveTo = m_transform.moveTowards(m_enemy.getPosition(), graphPathVec, m_speed * t_deltaTime.asMilliseconds());
+	sf::Vector2f moveTo = m_transform.moveTowards(m_enemy.getPosition(), graphPathVec, m_speed );
 	m_enemy.setPosition(moveTo);
-	if (m_enemy.getPosition().x == graphPath.back()->m_data.m_x &&
-		m_enemy.getPosition().y == graphPath.back()->m_data.m_y)
+	if (m_enemy.getPosition().x == graphPath.back()->m_data.positionX &&
+		m_enemy.getPosition().y == graphPath.back()->m_data.positionY)
 	{
 		graphPath.pop_back();
 	}

@@ -32,7 +32,7 @@ public:
 private:
 	sf::Vector2f m_endPos = sf::Vector2f(100, 50);
 	int m_doOncePatrol = 0;
-	float m_speed = 0.01f;
+	float m_speed = 1.0f;
 	sf::Time m_time;
 	Transform m_transform;
 	Transform::Position graphPos;

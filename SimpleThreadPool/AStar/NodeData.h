@@ -8,10 +8,13 @@
 // ---------------------------------------------------------------------
 struct NodeData
 {
-	std::string m_name;
+	std::string name;
 	int pathCost;
 	int CostReachGoalH;
-	int m_row, m_col;
-	int m_x, m_y;
+	int row, col;
+	int positionX, positionY;
 	bool passable;
+	sf::Color color;
+	int index;
+	
 };
