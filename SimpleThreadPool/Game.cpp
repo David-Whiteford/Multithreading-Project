@@ -72,17 +72,14 @@ void Game::processEvents()
 
 void Game::update(sf::Time t_deltaTime)
 {
-	
 	if (m_moveNpc)
 	{
-		//m_threadPool.addTask(std::bind(&NPC::update, &m_npcVec[0]));
 		for (int i = 0; i < m_npcVec.size(); i++)
 		{
 			m_npcVec[i]->update();
 
 		}
 	}
-	
 	handleInputs();
 }
 
@@ -97,6 +94,7 @@ void Game::render()
 	}
 	m_window.display();
 }
+
 
 void Game::handleInputs()
 {

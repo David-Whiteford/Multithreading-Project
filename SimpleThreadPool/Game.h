@@ -19,6 +19,7 @@ private:
 	void processEvents();
 	void update(sf::Time t_deltaTime);
 	void render();
+	void aiMovement();
 	void handleInputs();
 	Tilemap* m_tileMap;
 	ThreadPool m_threadPool;
@@ -38,6 +39,9 @@ private:
 	sf::Vector2i m_mapMax = sf::Vector2i(400, 400);
 	int m_pos = 24;
 	
+
+
+	std::vector<std::thread> m_threads;
 	
 };
 #endif
