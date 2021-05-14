@@ -17,6 +17,11 @@ public:
 	~Path();
 	void draw();
 	void neighbourAlgor();
+	void setMapSize(int t_mapWidth, int m_mapHeigth)
+	{
+		m_rows = t_mapWidth;
+		m_cols = m_mapHeigth;
+	}
 	void clearAStar();
 	void setColor(sf::Color t_color, std::vector<Node*> &t_graphPath)
 	{
@@ -30,11 +35,15 @@ public:
 	void initAStar(std::vector<Rectangles*>& t_rects);
 	void update();
 	void setPath();
-	void setNewPath();
-	void setNumNodes(int t_numNodes)
+	void setNumNodes()
 	{
-		m_numNodes = t_numNodes;
+		m_numNodes = m_rows * m_cols;
 	}
+	void deleteGraph()
+	{
+		delete graph;
+	}
+
 	void newPath(int t_start, int t_end);
 	std::vector<Node*>& getGraphPath();
 	int nodePos(sf::Vector2f position);
@@ -51,15 +60,12 @@ private:
 	Raycast m_raycastUp;
 	Transform m_transform;
 	std::vector<Node*> graphPath;
-	int m_numNodes = 900;
+	int m_numNodes = 0;
 	std::vector<NodeData> m_gridNodes;
 	NodeData nodeData;
 	int nodeIndex{ 0 };
-
-
 	int val = 0;
 	int m_rows = 0;
 	int m_cols = 0;
-
 	int m_nodeSize = 0;
 };

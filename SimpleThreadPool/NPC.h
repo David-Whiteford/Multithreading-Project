@@ -15,12 +15,15 @@ public:
 	int getPlayerNode(sf::Vector2f t_playerPosition)
 	{
 		return m_gamePath->nodePos(t_playerPosition);
-		
 	}
 	void setPosition(sf::Vector2f t_pos);
 	sf::Vector2f getPosition()
 	{
 		return m_enemy.getPosition();
+	}
+	void setPath(Path* t_gamePath)
+	{
+		m_gamePath = t_gamePath;
 	}
 	void update();
 	void enemyMovement(sf::Time t_deltaTime);

@@ -6,13 +6,7 @@ Tilemap::Tilemap()
 Tilemap::~Tilemap()
 {
 }
-void Tilemap::Draw()
-{
-	for (int i = 0; i < m_tileVec.size(); i++)
-	{
-		m_tileVec[i]->draw();
-	}
-}
+
 
 void Tilemap::setMap(sf::RenderWindow& t_window)
 {
@@ -32,11 +26,11 @@ void Tilemap::setMap(sf::RenderWindow& t_window)
 			break;
 		case 2:
 			m_tileVec.push_back(new Rectangles(t_window, m_tileSize,
-				sf::Vector2f(x * m_tileSize, y * m_tileSize), 0, sf::Color::Yellow));
+				sf::Vector2f(x * m_tileSize, y * m_tileSize), 2, sf::Color::Transparent));
 			break;
 		case 3:
 			m_tileVec.push_back(new Rectangles(t_window, m_tileSize,
-				sf::Vector2f(x * m_tileSize, y * m_tileSize), 2, sf::Color::Yellow));
+				sf::Vector2f(x * m_tileSize, y * m_tileSize), 3, sf::Color::Red));
 			break;
 		default:
 			break;

@@ -79,6 +79,7 @@ void Path::clearAStar()
 
 void Path::initAStar(std::vector<Rectangles*>& t_walls)
 {
+	m_nodeShape.clear();
 	int impassableVal = 1;
 	graph = new Graph<NodeData, int>(m_numNodes);
 	graphPath.reserve(169);

@@ -19,7 +19,7 @@ private:
 	void processEvents();
 	void update(sf::Time t_deltaTime);
 	void render();
-	void aiMovement();
+	void aiMovement(std::vector<NPC*> t_npcVec, bool t_moveNpc);
 	void handleInputs();
 	Tilemap* m_tileMap;
 	ThreadPool m_threadPool;
@@ -27,21 +27,18 @@ private:
 	sf::Event event;
 	sf::RenderWindow m_window; // main SFML window
 	int m_enemyNode = 0;
-	bool m_moveNpc = false;
 	std::vector<sf::Vector2f> m_startingPos;
 	int m_mapWidth = 30;
 	int m_mapHeight = 30;
 	Path* m_gamePath = new Path(m_window, m_mapWidth, m_mapHeight);
 	sf::Time m_deltaTime;
-	std::vector<NPC*> m_npcVec;
+	bool m_usemultiThreading = false;
 	sf::RectangleShape m_player;
 	int m_maxEnemies = 30;
 	sf::Vector2i m_mapMax = sf::Vector2i(400, 400);
 	int m_pos = 24;
-	
-
-
 	std::vector<std::thread> m_threads;
-	
+	std::vector<NPC*> m_npcVec;
+	bool m_moveNpc = false;
 };
 #endif

@@ -252,13 +252,14 @@ GraphArc<NodeType, ArcType>* Graph<NodeType, ArcType>::getArc( int from, int to 
 template<class NodeType, class ArcType>
 void Graph<NodeType, ArcType>::clearMarks() 
 {
-     for( int index = 0; index < m_nodes.size(); index++ ) 
-	 {
-          if( nullptr != m_nodes.at(index) ) 
-		  {
-			  m_nodes.at(index)->setMarked(false);
-          }
-     }
+	for (int index = 0; index < m_nodes.size(); index++)
+	{
+		if (nullptr != m_nodes.at(index))
+		{
+			m_nodes.at(index)->setMarked(false);
+		}
+	}
+	
 }
 
 

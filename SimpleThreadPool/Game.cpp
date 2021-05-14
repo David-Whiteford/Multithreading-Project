@@ -2,11 +2,22 @@
 #include <ThreadPool.h>
 #include <iostream>
 static double const MS_PER_UPDATE = 10.0;
+
+void aiMove(std::vector<NPC*> t_npcVec, bool t_moveNpc)
+{
+	if (t_moveNpc) {
+		for (int i = 0; i < t_npcVec.size(); i++)
+		{
+			t_npcVec[i]->update();
+		}
+	}
+}
+
 Game::Game() :
 	m_window{ sf::VideoMode{ desktop.width, desktop.height, desktop.bitsPerPixel }, "SFML Game" }
 {
 	init();
-	m_tileMap->PushValsToVec();
+	m_tileMap->make30SizeMap(m_mapWidth,m_mapHeight);
 	m_tileMap->setMap(m_window);
 	sf::RectangleShape playerPos = m_tileMap->getPlayerPos();
 	m_player.setSize(sf::Vector2f(5, 5));
@@ -14,10 +25,15 @@ Game::Game() :
 	m_player.setPosition(playerPos.getPosition().x, playerPos.getPosition().y);
 	std::vector<Rectangles*> walls = m_tileMap->getTilesVec();
 	int tileSize = m_tileMap->getNodeSize();
+	m_gamePath->setNumNodes();
 	m_gamePath->setNodeSize(tileSize);
 	m_gamePath->initAStar(walls);
 	ThreadPool tp;
-	
+	/*int cores = std::thread::hardware_concurrency() - 1;
+	for (int i = 0; i < cores; i++)
+	{
+		m_threads.push_back(std::thread(&ThreadPool::continueTask, &m_threadPool));
+	}*/
 	for (int i = 0; i < m_maxEnemies; i++)
 	{
 		int x, y = 0;
@@ -72,21 +88,24 @@ void Game::processEvents()
 
 void Game::update(sf::Time t_deltaTime)
 {
-	if (m_moveNpc)
+	
+	if (m_usemultiThreading == false) {
+		aiMovement(m_npcVec,m_moveNpc);
+	}
+	else
 	{
-		for (int i = 0; i < m_npcVec.size(); i++)
-		{
-			m_npcVec[i]->update();
-
-		}
+		m_threadPool.addTask(std::bind(aiMove, m_npcVec, m_moveNpc));
+		//m_threadPool.addTask(std::bind(&Game::aiMovement, m_npcVec, m_moveNpc));
+		//m_threadPool.completedTasks();
+		/*for (int i = 0; i < m_threads.size(); i++) {
+			m_threads[i].join();
+		}*/
 	}
 	handleInputs();
 }
-
 void Game::render()
 {
 	m_window.clear(sf::Color::Black);
-	m_tileMap->Draw();
 	m_gamePath->draw();
 	for (int i = 0; i < m_npcVec.size(); i++)
 	{
@@ -95,12 +114,40 @@ void Game::render()
 	m_window.display();
 }
 
+void Game::aiMovement(std::vector<NPC*> t_npcVec, bool t_moveNpc)
+{
+	if (t_moveNpc) {
+		for (int i = 0; i < t_npcVec.size(); i++)
+		{
+			t_npcVec[i]->update();
+		}
+	}
+}
 
 void Game::handleInputs()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
 		m_moveNpc = true;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
+	{
+		m_mapWidth = 100;
+		m_mapHeight = 100;
+		m_tileMap->make100SizeMap(m_mapWidth, m_mapHeight);
+		m_tileMap->setMap(m_window);
+		std::vector<Rectangles*> walls = m_tileMap->getTilesVec();
+		m_gamePath->deleteGraph();
+		m_gamePath->setMapSize(m_mapWidth, m_mapHeight);
+		m_gamePath->setNumNodes();
+		m_gamePath->initAStar(walls);
+		for (int i = 0; i < m_maxEnemies; i++) {
+			m_npcVec[i]->setPath(m_gamePath);
+		}
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		
 	}
 }
 
