@@ -13,10 +13,21 @@ public:
 	~Tilemap();
 	void setMap(sf::RenderWindow& t_window);
 	std::vector<Rectangles*> getTilesVec();
-
+	void deleteTiles()
+	{
+		for (auto rectangle : m_tileVec)
+		{
+			delete rectangle;
+		}
+		m_tileVec.clear();
+	}
 	int getNodeSize()
 	{
 		return m_tileSize;
+	}
+	void setNodeSize(int t_nodeSize)
+	{
+		m_tileSize = t_nodeSize;
 	}
 	sf::RectangleShape getPlayerPos()
 	{
@@ -31,6 +42,7 @@ public:
 	}
 	void make30SizeMap(int t_mapWidth, int t_mapHeigth)
 	{
+		deleteTiles();
 		m_mapWidth = t_mapWidth;
 		m_mapHeigth = t_mapHeigth;
 		m_tileVecValues.clear();
@@ -44,6 +56,7 @@ public:
 	}
 	void make100SizeMap(int t_mapWidth, int t_mapHeigth)
 	{
+		deleteTiles();
 		m_mapWidth = t_mapWidth;
 		m_mapHeigth = t_mapHeigth;
 		m_tileVecValues.clear();
@@ -57,16 +70,14 @@ public:
 	}
 	void make1000SizeMap(int t_mapWidth, int t_mapHeigth)
 	{
-		/*int mapWidth = t_mapWidth;
+		deleteTiles();
+		int mapWidth = t_mapWidth;
 		int mapHeigth = t_mapHeigth;
 		m_tileVecValues.clear();
-		for (int row = 0; row < m_mapWidth; row++)
+		for (int i = 0; i < m_mapWidth; i++)
 		{
-			for (int col = 0; col < m_mapHeigth; col++)
-			{
-				m_tileVecValues.push_back(lvl3[row][col]);
-			}
-		}*/
+			
+		}
 	}
 private:
 
@@ -75,7 +86,7 @@ private:
 	int m_mapWidth = 0;
 	int m_mapHeigth = 0;
 	sf::Vector2f m_tilePosition = sf::Vector2f(0.0f, 0.0f);
-	int m_tileSize = 10;
+	int m_tileSize = 5;
 	std::vector<int> m_tileVecValues;
 
 	int lvl1[30][30] = {
@@ -214,6 +225,12 @@ private:
 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 	};
+
+
+	int lvl3[1000][1000];
+
+
+
 };
 
 

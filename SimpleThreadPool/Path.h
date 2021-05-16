@@ -28,7 +28,7 @@ public:
 		for (int i = 0; i < t_graphPath.size(); i++)
 		{
 			m_nodeShape[t_graphPath[i]->m_data.index].setFillColor(t_color);
-			t_graphPath[i]->m_data.passable = false;
+			//t_graphPath[i]->m_data.passable = false;
 		}
 	}
 	//functions to start A*, and update,and set the path

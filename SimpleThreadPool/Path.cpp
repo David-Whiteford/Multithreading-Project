@@ -82,7 +82,7 @@ void Path::initAStar(std::vector<Rectangles*>& t_walls)
 	m_nodeShape.clear();
 	int impassableVal = 1;
 	graph = new Graph<NodeData, int>(m_numNodes);
-	graphPath.reserve(169);
+	graphPath.reserve(m_numNodes);
 	int nodeIndex = 0;
 	for (int row = 0; row < m_rows; row++)
 	{
@@ -100,7 +100,7 @@ void Path::initAStar(std::vector<Rectangles*>& t_walls)
 			sf::RectangleShape rect;
 			m_nodeShape.push_back(rect);
 			m_nodeShape[nodeIndex].setFillColor(nodeData.color);
-			m_nodeShape[nodeIndex].setOutlineThickness(1);
+			m_nodeShape[nodeIndex].setOutlineThickness(0.5f);
 			m_nodeShape[nodeIndex].setOutlineColor(sf::Color::White);
 			m_nodeShape[nodeIndex].setSize(sf::Vector2f(m_nodeSize, m_nodeSize));
 			m_nodeShape[nodeIndex].setPosition(nodeData.positionX, nodeData.positionY);

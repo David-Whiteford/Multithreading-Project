@@ -3,7 +3,7 @@
 #include <iostream>
 static double const MS_PER_UPDATE = 10.0;
 
-void aiMove(std::vector<NPC*> t_npcVec, bool t_moveNpc)
+void aiMove(std::vector<NPC*> &t_npcVec, bool t_moveNpc)
 {
 	if (t_moveNpc) {
 		for (int i = 0; i < t_npcVec.size(); i++)
@@ -11,6 +11,13 @@ void aiMove(std::vector<NPC*> t_npcVec, bool t_moveNpc)
 			t_npcVec[i]->update();
 		}
 	}
+}
+void changeLevel2(Path* &t_gamePath,int t_mapWidth,int t_mapHeight, std::vector<Rectangles*> &t_walls)
+{
+	t_gamePath->deleteGraph();
+	t_gamePath->setMapSize(t_mapWidth, t_mapHeight);
+	t_gamePath->setNumNodes();
+	t_gamePath->initAStar(t_walls);
 }
 
 Game::Game() :
@@ -28,23 +35,19 @@ Game::Game() :
 	m_gamePath->setNumNodes();
 	m_gamePath->setNodeSize(tileSize);
 	m_gamePath->initAStar(walls);
-	ThreadPool tp;
-	/*int cores = std::thread::hardware_concurrency() - 1;
-	for (int i = 0; i < cores; i++)
-	{
-		m_threads.push_back(std::thread(&ThreadPool::continueTask, &m_threadPool));
-	}*/
+	m_view.setCenter(sf::Vector2f(m_mapWidth * m_tileMap->getNodeSize(), m_mapHeight * m_tileMap->getNodeSize()));
+	m_view.zoom(0.5f);
 	for (int i = 0; i < m_maxEnemies; i++)
 	{
 		int x, y = 0;
-		x = randomInt(10,10 * 29);
-		y = randomInt(10, 10 * 29);
+		x = randomInt(10,5 * m_mapWidth-1 );
+		y = randomInt(10, 5 * m_mapHeight -1);
 		m_startingPos.push_back(sf::Vector2f(x, y));
 	}
 	for (int i = 0; i < m_maxEnemies; i++) {
 		m_npcVec.push_back(new NPC(m_window, m_deltaTime, m_startingPos[i], m_gamePath, m_tileMap->getNodeSize() /2, m_player));
 	}
-
+	
 }
 
 
@@ -95,17 +98,19 @@ void Game::update(sf::Time t_deltaTime)
 	else
 	{
 		m_threadPool.addTask(std::bind(aiMove, m_npcVec, m_moveNpc));
-		//m_threadPool.addTask(std::bind(&Game::aiMovement, m_npcVec, m_moveNpc));
-		//m_threadPool.completedTasks();
-		/*for (int i = 0; i < m_threads.size(); i++) {
-			m_threads[i].join();
-		}*/
 	}
 	handleInputs();
+	if (m_createRoomTwo == true) {
+		Room2Creation();
+	}
+	else if (m_createRoomThree == true) {
+
+	}
 }
 void Game::render()
 {
 	m_window.clear(sf::Color::Black);
+	m_window.setView(m_view);
 	m_gamePath->draw();
 	for (int i = 0; i < m_npcVec.size(); i++)
 	{
@@ -132,22 +137,44 @@ void Game::handleInputs()
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
 	{
-		m_mapWidth = 100;
-		m_mapHeight = 100;
-		m_tileMap->make100SizeMap(m_mapWidth, m_mapHeight);
-		m_tileMap->setMap(m_window);
-		std::vector<Rectangles*> walls = m_tileMap->getTilesVec();
-		m_gamePath->deleteGraph();
-		m_gamePath->setMapSize(m_mapWidth, m_mapHeight);
-		m_gamePath->setNumNodes();
-		m_gamePath->initAStar(walls);
-		for (int i = 0; i < m_maxEnemies; i++) {
-			m_npcVec[i]->setPath(m_gamePath);
-		}
+		m_createRoomTwo = true;
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2))
 	{
-		
+		m_createRoomTwo = false;
 	}
 }
+
+void Game::Room2Creation()
+{
+	m_createRoomTwo = false;
+	//m_tileMap->setNodeSize(2);
+	m_view.zoom(2.0f);
+	m_mapWidth = 100;
+	m_mapHeight = 100;
+	m_maxEnemies = 100;
+	m_tileMap->make100SizeMap(m_mapWidth, m_mapHeight);
+	m_tileMap->setMap(m_window);
+	std::vector<Rectangles*> walls = m_tileMap->getTilesVec();
+	//m_threadPool.addTask(std::bind(changeLevel2, m_gamePath, m_mapWidth, m_mapHeight, walls));
+	m_gamePath->deleteGraph();
+	m_gamePath->setMapSize(m_mapWidth, m_mapHeight);
+	m_gamePath->setNumNodes();
+	m_gamePath->initAStar(walls);
+	for (int i = 0; i < m_maxEnemies; i++)
+	{
+		int x, y = 0;
+		x = randomInt(10, 5 * m_mapWidth - 1);
+		y = randomInt(10, 5 * m_mapHeight - 1);
+		m_startingPos.push_back(sf::Vector2f(x, y));
+	}
+	for (int i = 0; i < m_maxEnemies; i++) {
+		m_npcVec.push_back(new NPC(m_window, m_deltaTime, m_startingPos[i], m_gamePath, m_tileMap->getNodeSize() / 2, m_player));
+	}
+	for (int i = 0; i < m_npcVec.size(); i++) {
+		m_npcVec[i]->setPath(m_gamePath);
+	}
+}
+
+
 

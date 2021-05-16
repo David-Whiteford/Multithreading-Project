@@ -19,9 +19,8 @@ void NPC::enemyInit()
 	m_gamePath->clearAStar();
 	graphPath.reserve(169);
 	myGameObject = dynamic_cast<GameObject*>(this);
-
 	m_enemy.setSize(sf::Vector2f(m_size, m_size));
-	m_enemy.setFillColor(sf::Color::Red);
+	m_enemy.setFillColor(sf::Color::Green);
 	m_enemy.setPosition(m_position);
 	//get initial enemy Position
 	m_enemyNode = m_gamePath->nodePos(m_enemy.getPosition());

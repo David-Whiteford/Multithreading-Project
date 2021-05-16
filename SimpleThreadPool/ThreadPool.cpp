@@ -4,56 +4,51 @@ ThreadPool::ThreadPool() :m_tasks(), m_functionLock(),m_data(), m_acceptFunction
 	int cores = std::thread::hardware_concurrency() - 1;
 	for (int i = 0; i < cores; i++)
 	{
-		m_threads.push_back(std::thread());
+		m_threads.push_back(std::thread(continueTask,std::ref(*this)));
 	}
-	
 }
 
-ThreadPool::~ThreadPool() 
-{
+ThreadPool::~ThreadPool() {
 	completedTasks();
-}
-
-
-
-
-void ThreadPool::SetVal(std::vector<NPC*>& t_npc)
-{
-	m_npc = t_npc;
 }
 
 void ThreadPool::addTask(std::function<void()> t_functionToAdd)
 {
-	std::mutex* addTaskLock = new std::mutex;
-	addTaskLock->lock();
+	std::unique_lock<std::mutex> lock(m_functionLock);
 	m_tasks.push(t_functionToAdd);
-	addTaskLock->unlock();
+	m_data.notify_one();
 }
 
-void ThreadPool::continueTask(ThreadPool& t_treadPool)
+void ThreadPool::continueTask(ThreadPool& t_threadPool)
 {
-	std::function<void()> function;
+	std::function<void()> function = std::function<void()>();
 	while (true)
 	{
-		std::unique_lock<std::mutex> lock(m_functionLock);
-		m_data.wait(lock, [this]() {return m_tasks.empty() == false || m_acceptFunctions == false; });
-		if (m_acceptFunctions == false || m_tasks.empty() == true)
 		{
-			return;
+			std::unique_lock<std::mutex> lock(t_threadPool.m_functionLock);
+			t_threadPool.m_data.wait(lock, [&]() {return t_threadPool.m_tasks.empty() == false || t_threadPool.m_acceptFunctions == false; });
+			if (t_threadPool.m_acceptFunctions == false || t_threadPool.m_tasks.empty() == true)
+			{
+				return;
+			}
+			function = t_threadPool.m_tasks.front();
+			t_threadPool.m_tasks.pop();
 		}
-		function = m_tasks.front();
-		m_tasks.pop();
+		function();
 	}
-	function();
+	
 }
 
 void ThreadPool::completedTasks()
 {
-	std::mutex* completedTaskLock = new std::mutex;
-	completedTaskLock->lock();
+	
+	std::unique_lock<std::mutex> lock(m_functionLock);
 	m_acceptFunctions = false;
-	completedTaskLock->unlock();
 	m_data.notify_all();
+	for (std::thread& all_threads : m_threads)
+	{
+		all_threads.join();
+	}
 }
 
 

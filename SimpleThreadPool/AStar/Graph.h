@@ -523,8 +523,6 @@ inline void Graph<NodeType, ArcType>::aStar(Node* start, Node* dest , std::vecto
 		path.push_back(currentNode);
 		currentNode = currentNode->previous();
 	}
-
-
 }
 
 

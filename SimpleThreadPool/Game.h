@@ -21,6 +21,7 @@ private:
 	void render();
 	void aiMovement(std::vector<NPC*> t_npcVec, bool t_moveNpc);
 	void handleInputs();
+	void Room2Creation();
 	Tilemap* m_tileMap;
 	ThreadPool m_threadPool;
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
@@ -32,13 +33,14 @@ private:
 	int m_mapHeight = 30;
 	Path* m_gamePath = new Path(m_window, m_mapWidth, m_mapHeight);
 	sf::Time m_deltaTime;
-	bool m_usemultiThreading = false;
+	bool m_usemultiThreading = true;
 	sf::RectangleShape m_player;
 	int m_maxEnemies = 30;
 	sf::Vector2i m_mapMax = sf::Vector2i(400, 400);
 	int m_pos = 24;
-	std::vector<std::thread> m_threads;
 	std::vector<NPC*> m_npcVec;
 	bool m_moveNpc = false;
+	sf::View m_view;
+	bool m_createRoomTwo, m_createRoomThree = false;
 };
 #endif
