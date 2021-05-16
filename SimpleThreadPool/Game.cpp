@@ -12,14 +12,6 @@ void aiMove(std::vector<NPC*> &t_npcVec, bool t_moveNpc)
 		}
 	}
 }
-void changeLevel2(Path* &t_gamePath,int t_mapWidth,int t_mapHeight, std::vector<Rectangles*> &t_walls)
-{
-	t_gamePath->deleteGraph();
-	t_gamePath->setMapSize(t_mapWidth, t_mapHeight);
-	t_gamePath->setNumNodes();
-	t_gamePath->initAStar(t_walls);
-}
-
 Game::Game() :
 	m_window{ sf::VideoMode{ desktop.width, desktop.height, desktop.bitsPerPixel }, "SFML Game" }
 {
@@ -27,16 +19,15 @@ Game::Game() :
 	m_tileMap->make30SizeMap(m_mapWidth,m_mapHeight);
 	m_tileMap->setMap(m_window);
 	sf::RectangleShape playerPos = m_tileMap->getPlayerPos();
-	m_player.setSize(sf::Vector2f(5, 5));
-	m_player.setFillColor(sf::Color::Red);
 	m_player.setPosition(playerPos.getPosition().x, playerPos.getPosition().y);
 	std::vector<Rectangles*> walls = m_tileMap->getTilesVec();
 	int tileSize = m_tileMap->getNodeSize();
 	m_gamePath->setNumNodes();
 	m_gamePath->setNodeSize(tileSize);
-	m_gamePath->initAStar(walls);
-	m_view.setCenter(sf::Vector2f(m_mapWidth * m_tileMap->getNodeSize(), m_mapHeight * m_tileMap->getNodeSize()));
-	m_view.zoom(0.5f);
+	//m_gamePath->initAStar(walls);
+	m_threadPool.addTask(std::bind(&Path::initAStar, walls, m_gamePath));
+	m_view.setCenter(sf::Vector2f(m_mapWidth * m_tileMap->getNodeSize() -70, m_mapHeight * m_tileMap->getNodeSize()-70));
+	m_view.zoom(0.18f);
 	for (int i = 0; i < m_maxEnemies; i++)
 	{
 		int x, y = 0;
@@ -148,31 +139,25 @@ void Game::handleInputs()
 void Game::Room2Creation()
 {
 	m_createRoomTwo = false;
-	//m_tileMap->setNodeSize(2);
+
 	m_view.zoom(2.0f);
+	int currentUnitNum = m_maxEnemies;
 	m_mapWidth = 100;
 	m_mapHeight = 100;
 	m_maxEnemies = 100;
 	m_tileMap->make100SizeMap(m_mapWidth, m_mapHeight);
 	m_tileMap->setMap(m_window);
 	std::vector<Rectangles*> walls = m_tileMap->getTilesVec();
-	//m_threadPool.addTask(std::bind(changeLevel2, m_gamePath, m_mapWidth, m_mapHeight, walls));
 	m_gamePath->deleteGraph();
 	m_gamePath->setMapSize(m_mapWidth, m_mapHeight);
 	m_gamePath->setNumNodes();
-	m_gamePath->initAStar(walls);
-	for (int i = 0; i < m_maxEnemies; i++)
-	{
+	m_threadPool.addTask(std::bind(&Path::initAStar, walls,m_gamePath));
+	for (int i = currentUnitNum; i < m_maxEnemies; i++) {
 		int x, y = 0;
-		x = randomInt(10, 5 * m_mapWidth - 1);
-		y = randomInt(10, 5 * m_mapHeight - 1);
+		x = randomInt(5, 5 * m_mapWidth - 1);
+		y = randomInt(5, 5 * m_mapHeight - 1);
 		m_startingPos.push_back(sf::Vector2f(x, y));
-	}
-	for (int i = 0; i < m_maxEnemies; i++) {
 		m_npcVec.push_back(new NPC(m_window, m_deltaTime, m_startingPos[i], m_gamePath, m_tileMap->getNodeSize() / 2, m_player));
-	}
-	for (int i = 0; i < m_npcVec.size(); i++) {
-		m_npcVec[i]->setPath(m_gamePath);
 	}
 }
 

@@ -42,5 +42,6 @@ private:
 	bool m_moveNpc = false;
 	sf::View m_view;
 	bool m_createRoomTwo, m_createRoomThree = false;
+	std::vector<Rectangles*> m_walls;
 };
 #endif

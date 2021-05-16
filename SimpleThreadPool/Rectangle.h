@@ -19,14 +19,20 @@ public:
 		{
 			myGameObject->setTag(PASSIBLE_TAG);
 		}
-		else
+		else if (t_tag == 1)
 		{
 			myGameObject->setTag(IMPASSIBLE_TAG);
+		}
+		else if(t_tag == 3)
+		{
+			myGameObject->setTag(PLAYER_TAG);
 		}
 
 	} // end wall
 	virtual ~Rectangles() {}
 	sf::RectangleShape getShape() { return m_rect; }
+	sf::Vector2f getPosition() { return m_rect.getPosition(); }
+	sf::Vector2f getSize() { return m_rect.getSize(); }
 	void setPosition(sf::Vector2f(t_pos)) { m_rect.setPosition(t_pos); }
 	void setShape(sf::RectangleShape shapeParam) { m_rect = shapeParam; }
 	void draw() { m_window.draw(m_rect); }

@@ -2,7 +2,7 @@
 #include <iostream>
 #include<SFML/Graphics.hpp>
 
-const int PASSIBLE_TAG = 0, IMPASSIBLE_TAG = 1 , ENEMY_TAG=2;
+const int PASSIBLE_TAG = 0, IMPASSIBLE_TAG = 1 , ENEMY_TAG=2, PLAYER_TAG = 3;
 
 class GameObject
 {

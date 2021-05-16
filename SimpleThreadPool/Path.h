@@ -32,7 +32,7 @@ public:
 		}
 	}
 	//functions to start A*, and update,and set the path
-	void initAStar(std::vector<Rectangles*>& t_rects);
+	static void initAStar(std::vector<Rectangles*>& t_rects, Path *t_path);
 	void update();
 	void setPath();
 	void setNumNodes()

@@ -24,10 +24,6 @@ void Tilemap::setMap(sf::RenderWindow& t_window)
 			m_tileVec.push_back(new Rectangles(t_window, m_tileSize,
 				sf::Vector2f(x * m_tileSize, y * m_tileSize), 1, sf::Color::White));
 			break;
-		case 2:
-			m_tileVec.push_back(new Rectangles(t_window, m_tileSize,
-				sf::Vector2f(x * m_tileSize, y * m_tileSize), 2, sf::Color::Transparent));
-			break;
 		case 3:
 			m_tileVec.push_back(new Rectangles(t_window, m_tileSize,
 				sf::Vector2f(x * m_tileSize, y * m_tileSize), 3, sf::Color::Red));

@@ -77,53 +77,54 @@ void Path::clearAStar()
 	graphPath.clear();
 }
 
-void Path::initAStar(std::vector<Rectangles*>& t_walls)
+void Path::initAStar(std::vector<Rectangles*>& t_walls, Path* t_path)
 {
-	m_nodeShape.clear();
+	t_path->m_nodeShape.clear();
 	int impassableVal = 1;
-	graph = new Graph<NodeData, int>(m_numNodes);
-	graphPath.reserve(m_numNodes);
+	t_path->graph = new Graph<NodeData, int>(t_path->m_numNodes);
+	t_path->graphPath.reserve(t_path->m_numNodes);
 	int nodeIndex = 0;
-	for (int row = 0; row < m_rows; row++)
+	for (int row = 0; row < t_path->m_rows; row++)
 	{
-		for (int col = 0; col < m_cols; col++)
+		for (int col = 0; col < t_path->m_cols; col++)
 		{
-			nodeData.passable = true;
-			nodeData.name = std::to_string(nodeIndex);
-			nodeData.positionX = col * m_nodeSize;
-			nodeData.positionY = row * m_nodeSize;
-			nodeData.row = row;
-			nodeData.col = col; 
-			nodeData.color = sf::Color::Transparent;
-			nodeData.index = nodeIndex;
-			m_gridNodes.push_back(nodeData);
+			t_path->nodeData.passable = true;
+			t_path->nodeData.name = std::to_string(nodeIndex);
+			t_path->nodeData.positionX = col * t_path->m_nodeSize;
+			t_path->nodeData.positionX = col * t_path->m_nodeSize;
+			t_path->nodeData.positionY = row * t_path->m_nodeSize;
+			t_path->nodeData.row = row;
+			t_path->nodeData.col = col;
+			t_path->nodeData.color = sf::Color::Transparent;
+			t_path->nodeData.index = nodeIndex;
+			t_path->m_gridNodes.push_back(t_path->nodeData);
 			sf::RectangleShape rect;
-			m_nodeShape.push_back(rect);
-			m_nodeShape[nodeIndex].setFillColor(nodeData.color);
-			m_nodeShape[nodeIndex].setOutlineThickness(0.5f);
-			m_nodeShape[nodeIndex].setOutlineColor(sf::Color::White);
-			m_nodeShape[nodeIndex].setSize(sf::Vector2f(m_nodeSize, m_nodeSize));
-			m_nodeShape[nodeIndex].setPosition(nodeData.positionX, nodeData.positionY);
-
-
+			t_path->m_nodeShape.push_back(rect);
+			t_path->m_nodeShape[nodeIndex].setFillColor(t_path->nodeData.color);
+			t_path->m_nodeShape[nodeIndex].setOutlineThickness(0.5f);
+			t_path->m_nodeShape[nodeIndex].setOutlineColor(sf::Color::White);
+			t_path->m_nodeShape[nodeIndex].setSize(sf::Vector2f(t_path->m_nodeSize, t_path->m_nodeSize));
+			t_path->m_nodeShape[nodeIndex].setPosition(t_path->nodeData.positionX, t_path->nodeData.positionY);
+		
 			for (auto wall : t_walls)
 			{
-				if (m_colliders.boxToBoxCol(m_nodeShape[nodeIndex].getPosition(),wall->getShape().getPosition(),
-					m_nodeShape[nodeIndex].getSize(), wall->getShape().getSize()) == true)
+				if (t_path->m_colliders.boxToBoxCol(t_path->m_nodeShape[nodeIndex].getPosition(),wall->getPosition(),
+					t_path->m_nodeShape[nodeIndex].getSize(), wall->getSize()) == true)
 				{
 					if (wall->myGameObject->getTag() == impassableVal) {
-						m_nodeShape[nodeIndex].setFillColor(sf::Color(sf::Color::Red));
-						nodeData.passable = false;
+						t_path->m_nodeShape[nodeIndex].setFillColor(sf::Color(sf::Color::Red));
+						t_path->nodeData.passable = false;
 					}
 				}
 			}
+		
 			//add node
-			graph->addNode(nodeData, nodeIndex);
+			t_path->graph->addNode(t_path->nodeData, nodeIndex);
 			nodeIndex++;
 		}
 		
 	}
-	neighbourAlgor();
+	t_path->neighbourAlgor();
 }
 
 void Path::update()
