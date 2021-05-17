@@ -32,7 +32,14 @@ public:
 	void enemyMovement(sf::Time t_deltaTime);
 	void moveEnemy(sf::Time t_deltaTime);
 	void draw();
-
+	void clearGraphPath()
+	{
+		delete m_gamePath;
+		for (int i = 0; i < graphPath.size(); i++) {
+			delete graphPath[i];
+		}
+		graphPath.clear();
+	}
 	GameObject* myGameObject;
 
 private:
@@ -47,8 +54,6 @@ private:
 	sf::RectangleShape m_enemy;
 	Path* m_gamePath;
 	sf::Vector2f graphPathVec;
-	std::vector<int> m_startNodes;
-	std::vector<int> m_endNodes;
 	int m_size = 0;
 	int m_enemyNode = 0;
 	int m_playerNode = 0;

@@ -20,6 +20,7 @@ public:
 			delete rectangle;
 		}
 		m_tileVec.clear();
+		m_tileVecValues.clear();
 	}
 	int getNodeSize()
 	{
@@ -29,7 +30,7 @@ public:
 	{
 		m_tileSize = t_nodeSize;
 	}
-	sf::RectangleShape getPlayerPos()
+	sf::Vector2f getPlayerPos()
 	{
 		for (auto wall : m_tileVec)
 		{
@@ -38,14 +39,13 @@ public:
 				m_playerPosVec = wall->getShape();
 			}
 		}
-		return m_playerPosVec;
+		return m_playerPosVec.getPosition();
 	}
 	void make30SizeMap(int t_mapWidth, int t_mapHeigth)
 	{
 		deleteTiles();
 		m_mapWidth = t_mapWidth;
 		m_mapHeigth = t_mapHeigth;
-		m_tileVecValues.clear();
 		for (int row = 0; row < m_mapWidth; row++)
 		{
 			for (int col = 0; col < m_mapHeigth; col++)
@@ -59,7 +59,6 @@ public:
 		deleteTiles();
 		m_mapWidth = t_mapWidth;
 		m_mapHeigth = t_mapHeigth;
-		m_tileVecValues.clear();
 		for (int row = 0; row < m_mapWidth; row++)
 		{
 			for (int col = 0; col < m_mapHeigth; col++)

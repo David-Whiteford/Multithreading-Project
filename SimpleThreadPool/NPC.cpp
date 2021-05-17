@@ -4,7 +4,6 @@ NPC::NPC(sf::RenderWindow& t_window, sf::Time& t_deltaTime, sf::Vector2f t_posit
 	:   m_window(t_window), m_deltaTime(t_deltaTime),
 		m_position(t_position), m_gamePath(t_gamePath),m_size(t_size),m_player(t_player)
 {
-	m_endNodes.push_back(52);
 	enemyInit();
 }
 
@@ -16,17 +15,11 @@ NPC::~NPC()
 
 void NPC::enemyInit()
 {
-	m_gamePath->clearAStar();
 	graphPath.reserve(169);
 	myGameObject = dynamic_cast<GameObject*>(this);
 	m_enemy.setSize(sf::Vector2f(m_size, m_size));
 	m_enemy.setFillColor(sf::Color::Green);
 	m_enemy.setPosition(m_position);
-	//get initial enemy Position
-	m_enemyNode = m_gamePath->nodePos(m_enemy.getPosition());
-	//will take a player position when created
-	m_playerNode = getPlayerNode(sf::Vector2f(100, 50));
-	m_gamePath->newPath(m_enemyNode, m_playerNode);
 	setSpeed(1);
 	dynamic_cast<GameObject*>(this)->setTag(ENEMY_TAG);
 }
@@ -48,11 +41,6 @@ void NPC::update()
 	m_enemyNode = m_gamePath->nodePos(m_enemy.getPosition());
 	myGameObject->position = m_enemy.getPosition();
 
-	if (m_doOncePatrol != 1)
-	{
-		m_doOncePatrol = 1;
-		graphPath.resize(0);
-	}
 	enemyMovement(m_deltaTime);
 }
 

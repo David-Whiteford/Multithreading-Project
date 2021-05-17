@@ -74,6 +74,9 @@ void Path::neighbourAlgor()
 
 void Path::clearAStar()
 {
+	for (int i = 0; i < graphPath.size(); i++) {
+		delete graphPath[i];
+	}
 	graphPath.clear();
 }
 
@@ -91,13 +94,13 @@ void Path::initAStar(std::vector<Rectangles*>& t_walls, Path* t_path)
 			t_path->nodeData.passable = true;
 			t_path->nodeData.name = std::to_string(nodeIndex);
 			t_path->nodeData.positionX = col * t_path->m_nodeSize;
-			t_path->nodeData.positionX = col * t_path->m_nodeSize;
 			t_path->nodeData.positionY = row * t_path->m_nodeSize;
 			t_path->nodeData.row = row;
 			t_path->nodeData.col = col;
 			t_path->nodeData.color = sf::Color::Transparent;
 			t_path->nodeData.index = nodeIndex;
 			t_path->m_gridNodes.push_back(t_path->nodeData);
+
 			sf::RectangleShape rect;
 			t_path->m_nodeShape.push_back(rect);
 			t_path->m_nodeShape[nodeIndex].setFillColor(t_path->nodeData.color);
@@ -105,7 +108,6 @@ void Path::initAStar(std::vector<Rectangles*>& t_walls, Path* t_path)
 			t_path->m_nodeShape[nodeIndex].setOutlineColor(sf::Color::White);
 			t_path->m_nodeShape[nodeIndex].setSize(sf::Vector2f(t_path->m_nodeSize, t_path->m_nodeSize));
 			t_path->m_nodeShape[nodeIndex].setPosition(t_path->nodeData.positionX, t_path->nodeData.positionY);
-		
 			for (auto wall : t_walls)
 			{
 				if (t_path->m_colliders.boxToBoxCol(t_path->m_nodeShape[nodeIndex].getPosition(),wall->getPosition(),

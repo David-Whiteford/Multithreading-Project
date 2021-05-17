@@ -9,6 +9,7 @@
 #include "RayCast.h"
 #include "Collisions.h"
 #include "Debug.h"
+
 typedef GraphNode<NodeData, int> Node;
 class Path
 {
@@ -22,13 +23,16 @@ public:
 		m_rows = t_mapWidth;
 		m_cols = m_mapHeigth;
 	}
+	void deleteNodeShapes()
+	{
+		m_nodeShape.clear();
+	}
 	void clearAStar();
 	void setColor(sf::Color t_color, std::vector<Node*> &t_graphPath)
 	{
 		for (int i = 0; i < t_graphPath.size(); i++)
 		{
 			m_nodeShape[t_graphPath[i]->m_data.index].setFillColor(t_color);
-			//t_graphPath[i]->m_data.passable = false;
 		}
 	}
 	//functions to start A*, and update,and set the path
@@ -43,7 +47,6 @@ public:
 	{
 		delete graph;
 	}
-
 	void newPath(int t_start, int t_end);
 	std::vector<Node*>& getGraphPath();
 	int nodePos(sf::Vector2f position);

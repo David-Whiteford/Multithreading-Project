@@ -31,8 +31,14 @@ public:
 	} // end wall
 	virtual ~Rectangles() {}
 	sf::RectangleShape getShape() { return m_rect; }
-	sf::Vector2f getPosition() { return m_rect.getPosition(); }
-	sf::Vector2f getSize() { return m_rect.getSize(); }
+	sf::Vector2f getPosition() { 
+		sf::Vector2f pos = m_rect.getPosition(); 
+		return pos;
+	}
+	sf::Vector2f getSize() { 
+		sf::Vector2f size = m_rect.getSize(); 
+		return size;
+	}
 	void setPosition(sf::Vector2f(t_pos)) { m_rect.setPosition(t_pos); }
 	void setShape(sf::RectangleShape shapeParam) { m_rect = shapeParam; }
 	void draw() { m_window.draw(m_rect); }

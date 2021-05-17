@@ -22,18 +22,18 @@ private:
 	void aiMovement(std::vector<NPC*> t_npcVec, bool t_moveNpc);
 	void handleInputs();
 	void Room2Creation();
+	//variables needed
 	Tilemap* m_tileMap;
 	ThreadPool m_threadPool;
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
 	sf::Event event;
 	sf::RenderWindow m_window; // main SFML window
 	int m_enemyNode = 0;
-	std::vector<sf::Vector2f> m_startingPos;
 	int m_mapWidth = 30;
 	int m_mapHeight = 30;
 	Path* m_gamePath = new Path(m_window, m_mapWidth, m_mapHeight);
 	sf::Time m_deltaTime;
-	bool m_usemultiThreading = true;
+	bool m_usemultiThreading = false;
 	sf::RectangleShape m_player;
 	int m_maxEnemies = 30;
 	sf::Vector2i m_mapMax = sf::Vector2i(400, 400);
