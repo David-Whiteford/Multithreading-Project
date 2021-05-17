@@ -15,6 +15,7 @@ enum class GameState
 	Exit
 
 };
+//random values for the generation of random ints
 namespace
 {
 	std::random_device rd;

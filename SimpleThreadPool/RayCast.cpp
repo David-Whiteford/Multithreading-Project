@@ -16,15 +16,17 @@ void Raycast::hit(sf::Vector2f t_targetPos, float t_targetSize)
 
 void Raycast::setRayVals(sf::Vector2f t_startPos, sf::Vector2f t_direction, float t_length)
 {
+	//set up the ray cast position,direction ,ray length and ray end position
 	m_position = t_startPos;
 	m_direction = t_direction;
 	m_rayLength = t_length;
 	m_rayEndPos = m_position + (m_direction * (m_rayLength));
-	//std::cout << "Ray End " << m_rayEndPos.x << " , " << m_rayEndPos.y << std::endl;
+	
 }
 
 sf::VertexArray Raycast::drawArray()
 {
+	//set up the rays 
 	sf::VertexArray ray(sf::LinesStrip, 2);
 	ray[0].position = m_position;
 	ray[1].position = m_position + (m_direction * (m_rayLength));

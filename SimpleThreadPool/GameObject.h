@@ -8,7 +8,7 @@ class GameObject
 {
 public:
 	GameObject() { static int _id; id = _id++; }
-
+	//game object that has a tag and position and size
 	virtual ~GameObject() {}
 	void setTag(int tag) { m_tag = tag; }
 	int getTag() { return m_tag; }

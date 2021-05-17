@@ -15,6 +15,7 @@ public:
 	std::vector<Rectangles*> getTilesVec();
 	void deleteTiles()
 	{
+		//clear the vectors and also delete values from them
 		for (auto rectangle : m_tileVec)
 		{
 			delete rectangle;
@@ -32,6 +33,7 @@ public:
 	}
 	sf::Vector2f getPlayerPos()
 	{
+		//return the position of the goal node
 		for (auto wall : m_tileVec)
 		{
 			int valNeeded = 3;
@@ -43,6 +45,7 @@ public:
 	}
 	void make30SizeMap(int t_mapWidth, int t_mapHeigth)
 	{
+		//set up the 30 * 30 map and delete the old map
 		deleteTiles();
 		m_mapWidth = t_mapWidth;
 		m_mapHeigth = t_mapHeigth;
@@ -56,6 +59,7 @@ public:
 	}
 	void make100SizeMap(int t_mapWidth, int t_mapHeigth)
 	{
+		//set up the 100 * 100 map and delete the old map
 		deleteTiles();
 		m_mapWidth = t_mapWidth;
 		m_mapHeigth = t_mapHeigth;

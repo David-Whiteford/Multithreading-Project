@@ -46,6 +46,7 @@ void NPC::update()
 
 void NPC::enemyMovement(sf::Time t_deltaTime)
 {
+	//if path not empty then move
 	if (graphPath.empty() == false)
 	{
 		moveEnemy(t_deltaTime);
@@ -58,7 +59,6 @@ void NPC::enemyMovement(sf::Time t_deltaTime)
 		m_gamePath->update();
 		graphPath = m_gamePath->getGraphPath();	
 		m_gamePath->setColor(sf::Color::Blue, graphPath);
-		
 	}
 }
 
@@ -68,6 +68,7 @@ void NPC::moveEnemy(sf::Time t_deltaTime)
 	//graphPath[0]->m_data.pathCost = 100;
 	sf::Vector2f moveTo = m_transform.moveTowards(m_enemy.getPosition(), graphPathVec, m_speed );
 	m_enemy.setPosition(moveTo);
+	//once a ai gets to the nodes then delete that node
 	if (m_enemy.getPosition().x == graphPath.back()->m_data.positionX &&
 		m_enemy.getPosition().y == graphPath.back()->m_data.positionY)
 	{
@@ -77,5 +78,6 @@ void NPC::moveEnemy(sf::Time t_deltaTime)
 
 void NPC::draw()
 {
+	//draw ai
 	m_window.draw(m_enemy);
 }

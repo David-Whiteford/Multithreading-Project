@@ -13,6 +13,7 @@ Path::~Path()
 
 void Path::draw()
 {
+	//draw all nodes
 	if (DEBUG >= 1)
 	{
 		for (auto node : m_nodeShape)
@@ -47,13 +48,13 @@ void Path::neighbourAlgor()
 							if (graph->nodeIndex(index)->m_data.row == n_row
 								&& graph->nodeIndex(index)->m_data.col == n_col)
 							{
-
+								//get the nighbour nodes and current nodes
 								sf::Vector2f currentNode = sf::Vector2f(graph->nodeIndex(nodeIndex)->m_data.positionX,
 									graph->nodeIndex(nodeIndex)->m_data.positionY);
 
 								sf::Vector2f neighborsNodes = sf::Vector2f(graph->nodeIndex(index)->m_data.positionX,
 									graph->nodeIndex(index)->m_data.positionY);
-
+								//get the distance
 								float dist = m_transform.distance(currentNode, neighborsNodes);
 
 								//std::cout << "distance" << dist << std::endl;
@@ -74,6 +75,7 @@ void Path::neighbourAlgor()
 
 void Path::clearAStar()
 {
+	//clear all vectors and delete pointers
 	for (int i = 0; i < graphPath.size(); i++) {
 		delete graphPath[i];
 	}
@@ -82,15 +84,19 @@ void Path::clearAStar()
 
 void Path::initAStar(std::vector<Rectangles*>& t_walls, Path* t_path)
 {
+	//clear nodes vec
 	t_path->m_nodeShape.clear();
 	int impassableVal = 1;
+	//set up new graph
 	t_path->graph = new Graph<NodeData, int>(t_path->m_numNodes);
 	t_path->graphPath.reserve(t_path->m_numNodes);
 	int nodeIndex = 0;
+	//nested loop to set up data for nodes
 	for (int row = 0; row < t_path->m_rows; row++)
 	{
 		for (int col = 0; col < t_path->m_cols; col++)
 		{
+			//set up all nodes and set the data of them
 			t_path->nodeData.passable = true;
 			t_path->nodeData.name = std::to_string(nodeIndex);
 			t_path->nodeData.positionX = col * t_path->m_nodeSize;
@@ -100,7 +106,7 @@ void Path::initAStar(std::vector<Rectangles*>& t_walls, Path* t_path)
 			t_path->nodeData.color = sf::Color::Transparent;
 			t_path->nodeData.index = nodeIndex;
 			t_path->m_gridNodes.push_back(t_path->nodeData);
-
+			//set up rectangles for each node
 			sf::RectangleShape rect;
 			t_path->m_nodeShape.push_back(rect);
 			t_path->m_nodeShape[nodeIndex].setFillColor(t_path->nodeData.color);
@@ -108,6 +114,7 @@ void Path::initAStar(std::vector<Rectangles*>& t_walls, Path* t_path)
 			t_path->m_nodeShape[nodeIndex].setOutlineColor(sf::Color::White);
 			t_path->m_nodeShape[nodeIndex].setSize(sf::Vector2f(t_path->m_nodeSize, t_path->m_nodeSize));
 			t_path->m_nodeShape[nodeIndex].setPosition(t_path->nodeData.positionX, t_path->nodeData.positionY);
+			//loop through all walls and check all passable ones
 			for (auto wall : t_walls)
 			{
 				if (t_path->m_colliders.boxToBoxCol(t_path->m_nodeShape[nodeIndex].getPosition(),wall->getPosition(),
@@ -126,30 +133,36 @@ void Path::initAStar(std::vector<Rectangles*>& t_walls, Path* t_path)
 		}
 		
 	}
+	//set up neighbours
 	t_path->neighbourAlgor();
 }
 
 void Path::update()
 {
+	//set the path
 	setPath();
 }
 
 void Path::setPath()
 {
+	//clear marks and set up the astar
 	graph->clearMarks();
 	graph->aStar(graph->nodeIndex(startNode), graph->nodeIndex(endNode), graphPath);
 }
 void Path::newPath(int t_start, int t_end)
 {
+	//set up the start node and end node
 	startNode = t_start;
 	endNode = t_end;
 }
 std::vector<Node*>& Path::getGraphPath()
 {
+	//get the graph
 	return graphPath;
 }
 int Path::nodePos(sf::Vector2f position)
 {
+	//get the nodes number
 	int nodeNumber = floor(position.x / m_nodeSize) + (floor(position.y / m_nodeSize) * m_cols);
 	return nodeNumber;
 }

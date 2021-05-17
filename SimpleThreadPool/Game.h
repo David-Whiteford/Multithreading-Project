@@ -28,14 +28,17 @@ private:
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
 	sf::Event event;
 	sf::RenderWindow m_window; // main SFML window
+	//variabvles for the map size and nodes
 	int m_enemyNode = 0;
 	int m_mapWidth = 30;
 	int m_mapHeight = 30;
+	//set up the astar grid
 	Path* m_gamePath = new Path(m_window, m_mapWidth, m_mapHeight);
 	sf::Time m_deltaTime;
-	bool m_usemultiThreading = false;
+	bool m_usemultiThreading = true;
 	sf::RectangleShape m_player;
 	int m_maxEnemies = 30;
+	//set up the ai and view along with variables
 	sf::Vector2i m_mapMax = sf::Vector2i(400, 400);
 	int m_pos = 24;
 	std::vector<NPC*> m_npcVec;

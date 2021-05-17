@@ -16,16 +16,20 @@ Game::Game() :
 	m_window{ sf::VideoMode{ desktop.width, desktop.height, desktop.bitsPerPixel }, "SFML Game" }
 {
 	init();
+	//set up the tilemap for 30 x 30 level
 	m_tileMap->make30SizeMap(m_mapWidth,m_mapHeight);
 	m_tileMap->setMap(m_window);
 	m_player.setPosition(m_tileMap->getPlayerPos());
 	std::vector<Rectangles*> walls = m_tileMap->getTilesVec();
 	int tileSize = m_tileMap->getNodeSize();
+	//set up the ai graph
 	m_gamePath->setNumNodes();
 	m_gamePath->setNodeSize(tileSize);
+	//add task for loading level into threadpool 
 	m_threadPool.addTask(std::bind(&Path::initAStar, walls, m_gamePath));
 	m_view.setCenter(sf::Vector2f(m_mapWidth * m_tileMap->getNodeSize() -70, m_mapHeight * m_tileMap->getNodeSize()-70));
 	m_view.zoom(0.18f);
+	//set up the enemies
 	for (int i = 0; i < m_maxEnemies; i++) {
 		int x, y = 0;
 		x = randomInt(10, 5 * m_mapWidth - 1);
@@ -76,15 +80,17 @@ void Game::processEvents()
 
 void Game::update(sf::Time t_deltaTime)
 {
-	
+	//check if multi threading is being used
 	if (m_usemultiThreading == false) {
 		aiMovement(m_npcVec,m_moveNpc);
 	}
 	else
 	{
+		//add task to calculate path with a star to the thread pool
 		m_threadPool.addTask(std::bind(aiMove, m_npcVec, m_moveNpc));
 	}
 	handleInputs();
+	//create room 100 x 100
 	if (m_createRoomTwo == true) {
 		Room2Creation();
 	}
@@ -93,7 +99,8 @@ void Game::update(sf::Time t_deltaTime)
 	}
 }
 void Game::render()
-{
+{ 
+	//render all enemies and graph tiles
 	m_window.clear(sf::Color::Black);
 	m_window.setView(m_view);
 	m_gamePath->draw();
@@ -106,9 +113,11 @@ void Game::render()
 
 void Game::aiMovement(std::vector<NPC*> t_npcVec, bool t_moveNpc)
 {
+	//check if the ai should move
 	if (t_moveNpc) {
 		for (int i = 0; i < t_npcVec.size(); i++)
 		{
+			//call update to move ai
 			t_npcVec[i]->update();
 		}
 	}
@@ -116,6 +125,7 @@ void Game::aiMovement(std::vector<NPC*> t_npcVec, bool t_moveNpc)
 
 void Game::handleInputs()
 {
+	//check the input and set bool
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
 		m_moveNpc = true;
@@ -132,13 +142,18 @@ void Game::handleInputs()
 
 void Game::Room2Creation()
 {
+	//set up view
 	m_view.zoom(3.0f);
-	m_view.setCenter(sf::Vector2f(m_mapWidth * m_tileMap->getNodeSize() +110, m_mapHeight * m_tileMap->getNodeSize()+120));
+	sf::Vector2i offset = sf::Vector2i(110, 120);
+	m_view.setCenter(sf::Vector2f(m_mapWidth * m_tileMap->getNodeSize() + offset.x, m_mapHeight * m_tileMap->getNodeSize()+ offset.y));
+	//set new map widths
 	m_mapWidth = 100;
 	m_mapHeight = 100;
 	m_maxEnemies = 100;
+	//set up the tilemap for 100 x 100 level
 	m_tileMap->make100SizeMap(m_mapWidth, m_mapHeight);
 	m_tileMap->setMap(m_window);
+	//get walls and set up the game graph
 	std::vector<Rectangles*> walls = m_tileMap->getTilesVec();
 	m_gamePath->deleteGraph();
 	m_gamePath->setMapSize(m_mapWidth, m_mapHeight);
@@ -146,6 +161,7 @@ void Game::Room2Creation()
 	m_gamePath->initAStar(walls, m_gamePath);
 	//m_threadPool.addTask(std::bind(&Path::initAStar, walls, m_gamePath));
 	m_player.setPosition(m_tileMap->getPlayerPos());
+	//set up the all enemies
 	for (int i = 0; i < m_maxEnemies; i++) {
 		int x, y = 0;
 		x = randomInt(10, 5 * 100 - 1);
