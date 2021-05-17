@@ -40,7 +40,6 @@ void NPC::update()
 	m_playerNode = m_gamePath->nodePos(m_player.getPosition());
 	m_enemyNode = m_gamePath->nodePos(m_enemy.getPosition());
 	myGameObject->position = m_enemy.getPosition();
-
 	enemyMovement(m_deltaTime);
 }
 

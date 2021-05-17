@@ -87,7 +87,7 @@ void Game::update(sf::Time t_deltaTime)
 	else
 	{
 		//add task to calculate path with a star to the thread pool
-		m_threadPool.addTask(std::bind(aiMove, m_npcVec, m_moveNpc));
+ 		m_threadPool.addTask(std::bind(aiMove, m_npcVec, m_moveNpc));
 	}
 	handleInputs();
 	//create room 100 x 100
@@ -164,8 +164,8 @@ void Game::Room2Creation()
 	//set up the all enemies
 	for (int i = 0; i < m_maxEnemies; i++) {
 		int x, y = 0;
-		x = randomInt(10, 5 * 100 - 1);
-		y = randomInt(10, 5 * 100 - 1);
+		x = randomInt(10, 5 * m_mapWidth - 1);
+		y = randomInt(10, 5 * m_mapHeight - 1);
 		m_npcVec.push_back(new NPC(m_window, m_deltaTime, sf::Vector2f(x, y), m_gamePath, m_tileMap->getNodeSize() / 2, m_player));
 	}
 	m_createRoomTwo = false;
